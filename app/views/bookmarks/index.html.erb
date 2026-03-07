@@ -1,0 +1,36 @@
+<% content_for :title, "Fazenda de Links - GoiabookLM" %>
+
+<%= turbo_frame_tag "modal" %>
+
+<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 2rem;">
+  <%= link_to "Adicionar Novo Favorito", new_bookmark_path, class: "btn btn-primary" %>
+</div>
+
+<div style="margin-bottom: 2rem; background-color: var(--card-bg); padding: 1rem; border-radius: 8px;">
+  <%= form_with url: bookmarks_path, method: :get, local: true, class: "search-form", data: { turbo_frame: "_top" } do |f| %>
+    <%= f.hidden_field :unread, value: params[:unread] if params[:unread] == 'true' %>
+    
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+      
+      <div style="display: flex; gap: 10px; align-items: stretch; width: 100%;">
+        <%= f.text_field :query, value: params[:query], placeholder: "Buscar nos devaneios da rede...", style: "flex-grow: 1; margin: 0; min-width: 0;" %>
+        <%= f.submit "Farejar", class: "btn btn-primary", style: "margin: 0; flex-shrink: 0;" %>
+      </div>
+
+      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <%= link_to (params[:unread] == 'true' ? "✕ Exibindo Apenas Não Lidas" : "Filtrar: Só Não Lidas"), bookmarks_path(query: params[:query], unread: (params[:unread] == 'true' ? nil : 'true')), class: "btn #{params[:unread] == 'true' ? 'btn-primary' : ''}", style: "margin: 0;" %>
+
+        <% if params[:query].present? || params[:unread].present? %>
+          <%= link_to "Limpar", bookmarks_path, class: "btn", style: "border: none; margin: 0; color: #aaa;" %>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+</div>
+
+<div id="bookmarks" class="bookmarks-grid">
+  <% @bookmarks.each do |bookmark| %>
+    <%= render bookmark %>
+  <% end %>
+</div>

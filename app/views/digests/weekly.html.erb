@@ -1,0 +1,17 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h2 style="margin: 0;">Boletim Semanal (A Reunião Dominical)</h2>
+  <%= link_to "Voltar para Favoritos", bookmarks_path, class: "btn" %>
+</div>
+
+<div class="bookmark-card article-content" style="margin-bottom: 3rem;">
+  <%= render_markdown(@digest) %>
+</div>
+
+<h3 style="margin-top: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+  Os Sobreviventes da Semana (<%= @bookmarks.count %> links)
+</h3>
+<ul style="list-style-type: square; color: var(--accent);">
+  <% @bookmarks.each do |b| %>
+    <li style="margin-bottom: 0.5rem;"><%= link_to b.title, b.url, target: "_blank", rel: "noopener" %></li>
+  <% end %>
+</ul>

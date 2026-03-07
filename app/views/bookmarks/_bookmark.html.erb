@@ -1,0 +1,35 @@
+<div id="<%= dom_id bookmark %>" class="bookmark-card">
+  <h3 class="bookmark-title">
+    <%= link_to bookmark.title.presence || bookmark.url, bookmark.url, target: "_blank", rel: "noopener" %>
+  </h3>
+  
+  <div class="bookmark-url">
+    <%= link_to URI.parse(bookmark.url).host || bookmark.url, bookmark.url, target: "_blank", rel: "noopener" %>
+  </div>
+
+  <div class="bookmark-meta">
+    Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | 
+    <% if bookmark.status == 0 %>
+      <span class="badge badge-pending">Na Fila de Resumo</span>
+    <% elsif bookmark.status == 1 %>
+      <span class="badge badge-processed">Esmiuçado</span>
+    <% else %>
+      <span class="badge badge-error">IA Capotou</span>
+    <% end %>
+  </div>
+
+  <% if bookmark.summary.present? %>
+    <div class="bookmark-summary">
+      <%= render_markdown(bookmark.summary) %>
+    </div>
+  <% elsif bookmark.description.present? && bookmark.status != 1 %>
+    <div class="bookmark-summary" style="opacity: 0.6;">
+      <%= bookmark.description %>
+    </div>
+  <% end %>
+
+  <div class="card-actions" style="margin-top: 1rem; padding-top: 0.8rem; justify-content: space-between; align-items: center;">
+    <%= link_to "Ver Artigo Salvo", bookmark, class: "btn", data: { turbo_frame: "modal" }, style: "border: 1px solid #555; color: #aaa; text-align: center;" %>
+    <%= button_to (bookmark.read ? "Desmarcar Leitura" : "Marcar Lida"), toggle_read_bookmark_path(bookmark), method: :patch, class: "btn #{bookmark.read ? '' : 'btn-primary'}", style: "margin: 0;" %>
+  </div>
+</div>

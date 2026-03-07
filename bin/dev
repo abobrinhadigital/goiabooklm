@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+if ! command -v foreman > /dev/null; then
+  echo "Instalando gem foreman globalmente para subir múltiplos processos..."
+  gem install foreman
+fi
+
+exec foreman start -f Procfile.dev "$@"

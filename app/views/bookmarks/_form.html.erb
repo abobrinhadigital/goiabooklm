@@ -1,0 +1,34 @@
+<%= form_with(model: bookmark, class: "bookmark-form", html: { style: "background-color: var(--card-bg); padding: 2rem; border-radius: 8px; border: 1px solid var(--border-color);" }) do |form| %>
+  <% if bookmark.errors.any? %>
+    <div class="alert" style="margin-bottom: 2rem;">
+      <h3 style="margin-top: 0; color: #d85a5a;"><%= pluralize(bookmark.errors.count, "erro") %> esbarrou na salvação deste favorito:</h3>
+      <ul>
+        <% bookmark.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :url, "URL Completa (Obrigatório)", style: "display: block; font-weight: bold; margin-bottom: 0.5rem;" %>
+    <%= form.url_field :url, style: "width: 100%; max-width: 600px;", required: true, placeholder: "https://...", autofocus: true %>
+  </div>
+
+  <% unless bookmark.new_record? %>
+    <div style="margin-top: 1.5rem;">
+      <%= form.label :title, "Título Reajustado (Opcional)", style: "display: block; font-weight: bold; margin-bottom: 0.5rem;" %>
+      <%= form.text_field :title, style: "width: 100%; max-width: 600px;" %>
+    </div>
+
+    <div style="margin-top: 1.5rem;">
+      <%= form.label :summary, "Resumo Elaborado (Markdown suportado)", style: "display: block; font-weight: bold; margin-bottom: 0.5rem;" %>
+      <%= form.text_area :summary, rows: 6, style: "width: 100%; resize: vertical;" %>
+    </div>
+  <% end %>
+
+  <div style="margin-top: 2.5rem; display: flex; gap: 1rem; align-items: center;">
+    <%= form.submit (bookmark.new_record? ? "Lançar para Leitura" : "Salvar Ajustes do Fav"), class: "btn btn-primary" %>
+    <%= link_to "Cancelar", bookmarks_path, class: "btn", style: "border: none; color: #aaa;" %>
+  </div>
+<% end %>
