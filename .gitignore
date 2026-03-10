@@ -35,4 +35,4 @@
 
 # Ignorar o cérebro terceirizado de Prompts do Pollux (GoiabookLM)
 /config/prompts/*
-!/config/prompts/.gitkeep
+!/config/prompts/.keep
