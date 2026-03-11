@@ -52,17 +52,18 @@ cd goiabooklm
 > Em produção, o Rails exige a `SECRET_KEY_BASE`. Gere uma executando `bundle exec rails secret` e cole o resultado no seu `.env`. Sem isso, o setup irá falhar.
 
 **2. Instalando Dependências e Bancos**
-O script mágico do Rails instalará gems, limpará arquivos velhos e criará todas as tabelas (principal e satélites do Solid Queue) magicamente usando SQL nativo:
+O script mágico do Rails instalará gems e preparará os bancos. Use a flag `--skip-server` para evitar que ele trave o seu terminal no final:
 ```bash
-RAILS_ENV=production bin/setup
+RAILS_ENV=production bin/setup --skip-server
 ```
 
 **3. Invocação Definitiva (A Imortalidade)**
-Para não ter que deixar o terminal aberto vigilante, instale o projeto como um serviço do Linux. O script abaixo criará um daemon Systemd automático para o seu usuário:
+Para não ter que deixar o terminal aberto vigilante, instale o projeto como um serviço do Linux:
 ```bash
+chmod +x script/install_service.sh
 ./script/install_service.sh
 ```
-*(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)*
+*(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)**(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)*
 
 ## Persona Pollux
 
