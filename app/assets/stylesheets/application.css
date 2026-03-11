@@ -150,26 +150,44 @@ a:hover {
 
 
 
-/* Formulários com Fundo Escuro */
+/* Formulários com Fundo Escuro - Padronização Global */
 input[type="text"],
+input[type="email"],
+input[type="password"],
 input[type="url"],
 input[type="search"],
 textarea {
   width: 100%;
-  padding: 0.8rem;
-  background-color: #111;
+  padding: 1.2rem 1rem;
+  background-color: #0c0c0c;
   border: 1px solid var(--border-color);
   color: var(--text-light);
   border-radius: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   box-sizing: border-box;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
-input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
 textarea:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(251, 192, 45, 0.2);
   outline: none;
+  background-color: #000000;
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
 }
 
 /* Botões Customizados */
@@ -186,6 +204,61 @@ textarea:focus {
   font-size: 0.95rem;
   line-height: 1.5;
   box-sizing: border-box;
+}
+
+/* Custom Checkbox (Remember Me) */
+.custom-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.custom-checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  height: 20px;
+  width: 20px;
+  background-color: #0c0c0c;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.custom-checkbox-container:hover input ~ .checkmark {
+  border-color: var(--accent);
+}
+
+.custom-checkbox-container input:checked ~ .checkmark {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox-container input:checked ~ .checkmark:after {
+  display: block;
 }
 
 .button_to {

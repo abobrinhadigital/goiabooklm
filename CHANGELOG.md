@@ -3,6 +3,17 @@
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [2.2.0] - 2026-03-11
+
+### Adicionado
+- **Autenticação "Parrudão Black"**: Overhaul visual das telas do Devise (Login, Cadastro e Recuperação de Senha). Os campos agora são imponentes, ocupando 100% da largura do card e com altura ampliada (`1.2rem padding`) para um visual de "cockpit".
+- **Checkbox Customizado**: Implementação de checkbox 100% CSS para o "Lembrar-me", com fundo preto profundo e brilho amarelo no hover e seleção, eliminando elementos padrão do sistema operacional.
+- **Localização Soberba**: Tradução integral das interfaces de autenticação para Português (Brasil). Labels e links compartilhados agora seguem um padrão sério e profissional ("Entrar", "Criar conta", "Lembrar-me").
+
+### Alterado
+- **Aesthetics Sincronizada**: Todos os inputs do sistema (incluindo login e busca) agora compartilham o mesmo DNA visual: fundo `#0c0c0c` (Black), brilho focal amarelo e bordas sutis, garantindo consistência total entre a home e a entrada.
+- **Card de Entrada Robusto**: Container de login ajustado para `500px` de largura para melhor leitura e presença visual centralizada.
+
 ## [2.1.0] - 2026-03-11
 
 ### Adicionado

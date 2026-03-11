@@ -1,0 +1,22 @@
+<div class="container" style="max-width: 500px; margin-top: 5rem;">
+  <div class="bookmark-card">
+    <h2 style="margin-bottom: 2rem; text-align: center;">Esqueceu sua senha?</h2>
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="field" style="width: 100%;">
+        <%= f.label :email, "E-mail" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "seu@email.com", style: "display: block; width: 100%;" %>
+      </div>
+
+      <div class="actions" style="margin-top: 1rem;">
+        <%= f.submit "Enviar instruções", class: "btn btn-primary", style: "width: 100%; padding: 1rem; font-size: 1.1rem;" %>
+      </div>
+    <% end %>
+
+    <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; text-align: center; font-size: 0.95rem;">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+</div>
