@@ -32,8 +32,9 @@ class BookmarksController < ApplicationController
         format.turbo_stream { redirect_to bookmarks_path, notice: "Bookmark was successfully created." }
         format.json { render :show, status: :created, location: @bookmark }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.turbo_stream { render :new, status: :unprocessable_entity }
+        error_msg = "Erro ao salvar: #{@bookmark.errors.full_messages.to_sentence}"
+        format.html { redirect_to bookmarks_path, alert: error_msg }
+        format.turbo_stream { redirect_to bookmarks_path, alert: error_msg }
         format.json { render json: @bookmark.errors, status: :unprocessable_entity }
       end
     end
