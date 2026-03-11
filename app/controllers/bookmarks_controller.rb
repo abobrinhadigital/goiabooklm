@@ -29,9 +29,11 @@ class BookmarksController < ApplicationController
     respond_to do |format|
       if @bookmark.save
         format.html { redirect_to bookmarks_path, notice: "Bookmark was successfully created." }
+        format.turbo_stream { redirect_to bookmarks_path, notice: "Bookmark was successfully created." }
         format.json { render :show, status: :created, location: @bookmark }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.turbo_stream { render :new, status: :unprocessable_entity }
         format.json { render json: @bookmark.errors, status: :unprocessable_entity }
       end
     end
