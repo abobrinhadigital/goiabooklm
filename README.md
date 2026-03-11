@@ -37,11 +37,26 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 
 Requisitos: Ruby 3.4.8 e SQLite3 instalado.
 
-1. Clone o repositório.
-2. Execute 'bundle install'.
-3. Configure o arquivo '.env' na raiz com a sua 'GEMINI_API_KEY'.
-4. Execute as migrações: 'bin/rails db:prepare'.
-5. Inicie o ambiente de desenvolvimento: 'bin/dev'.
+**1. Preparando o Terreno**
+Clone o repositório, entre na pasta e configure a chave da API:
+```bash
+git clone https://github.com/mestre/goiabooklm.git
+cd goiabooklm
+# Edite ou crie o .env com sua GEMINI_API_KEY
+```
+
+**2. Instalando Dependências e Bancos**
+O script mágico do Rails instalará gems, limpará arquivos velhos e criará todas as tabelas (principal e satélites do Solid Queue) magicamente usando SQL nativo:
+```bash
+RAILS_ENV=production bin/setup
+```
+
+**3. Invocação Definitiva (A Imortalidade)**
+Para não ter que deixar o terminal aberto vigilante, instale o projeto como um serviço do Linux. O script abaixo criará um daemon Systemd automático para o seu usuário:
+```bash
+./script/install_service.sh
+```
+*(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)*
 
 ## Persona Pollux
 

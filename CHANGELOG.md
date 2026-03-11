@@ -3,6 +3,15 @@
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
 O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
 
+## [2.1.0] - 2026-03-11
+
+### Adicionado
+- **GoiabookLM Imortal**: Script inteligente de automação de deamon (`script/install_service.sh`) para rodar o app no background via Systemd infinitamente.
+
+### Alterado
+- **Supervisor do Solid Queue**: Habilitado o plugin do `solid_queue` no Puma (`config/puma.rb`) para que o Rails inicie workers nativamente num mesmo processo.
+- **Deploys Zerados (Multi-DB Automático)**: Refatoração da fundação do banco. Migrações satélites transferidas para as respectivas pastas de ambiente (`db/cable_migrate`, etc.) e geração dos esquemas em puro SQL (`*_structure.sql`). Agora um deploy zerado via `bin/setup` carrega todas as tabelas corretamente no SQLite.
+
 ## [2.0.0] - 2026-03-11
 
 ### Adicionado
