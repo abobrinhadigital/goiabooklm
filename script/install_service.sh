@@ -41,9 +41,24 @@ WantedBy=multi-user.target
 EOF
 
 echo "==> Arquivo gerado em $SERVICE_FILE"
-echo "==> Para instalar no sistema, instale com root:"
-echo "    sudo mv $SERVICE_FILE /etc/systemd/system/goiabooklm.service"
-echo "    sudo systemctl daemon-reload"
-echo "    sudo systemctl enable --now goiabooklm"
+
+# Tentativa de instalação automática
+if command -v sudo > /dev/null; then
+    echo "==> Tentando instalar automaticamente com sudo..."
+    sudo mv $SERVICE_FILE /etc/systemd/system/goiabooklm.service
+    sudo systemctl daemon-reload
+    sudo systemctl enable goiabooklm
+    sudo systemctl restart goiabooklm
+    
+    echo ""
+    echo "🎉 SUCESSO! O GoiabookLM foi instalado e iniciado."
+    echo "Para ver se está tudo bem, rode: sudo systemctl status goiabooklm"
+else
+    echo "==> sudo não encontrado. Por favor, instale manualmente como root:"
+    echo "    mv $SERVICE_FILE /etc/systemd/system/goiabooklm.service"
+    echo "    systemctl daemon-reload"
+    echo "    systemctl enable --now goiabooklm"
+fi
+
 echo ""
 echo "O GoiabookLM rodará eternamente no background!"
