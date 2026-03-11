@@ -19,9 +19,10 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
 - Resumos de IA: Resumos curtos e honestos (da perspectiva do Pollux) para cada link salvo.
-- Boletins (Digests): Geração de resumos diários ou semanais que consolidam todos os links salvos em um único boletim estruturado.
+- Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.
+- Paginação Premium: Navegação fluida via gem Pagy com interface amigável.
 - Busca Robusta: Sistema de busca que varre títulos, conteúdos, resumos e URLs.
-- Interface Minimalista: Design focado na leitura e organização rápida.
+- Interface Minimalista & Editorial: Design focado na leitura e organização por abas.
 
 ## Pilha Técnica
 

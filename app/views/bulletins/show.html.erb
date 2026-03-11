@@ -1,0 +1,37 @@
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <h2 style="margin: 0;">Boletim Resumido (O Resgate do Passado)</h2>
+
+  <%= link_to "Voltar para Favoritos", bookmarks_path, class: "btn" %>
+</div>
+
+<% 
+  success_bookmarks = @bookmarks.select { |b| b.status == 1 }
+  failed_bookmarks = @bookmarks.select { |b| b.status == 2 }
+%>
+
+<div class="bookmark-card article-content" style="margin-bottom: 3rem;">
+  <%= render_markdown(@digest) %>
+</div>
+
+<h3 style="margin-top: 30px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+  Fontes Base do Polêmico (<%= success_bookmarks.count %> links)
+</h3>
+<ul style="list-style-type: square; color: var(--accent);">
+  <% success_bookmarks.each do |b| %>
+    <li style="margin-bottom: 0.5rem;"><%= link_to b.title, b.url, target: "_blank", rel: "noopener" %></li>
+  <% end %>
+</ul>
+
+<% if failed_bookmarks.any? %>
+  <h3 style="margin-top: 30px; border-bottom: 1px solid #d85a5a; padding-bottom: 10px; color: #d85a5a;">
+    <i class="fa-solid fa-triangle-exclamation"></i> Baixas de Guerra (<%= failed_bookmarks.count %> links com erro)
+  </h3>
+  <p style="font-size: 0.9rem; color: #888; font-style: italic;">
+    Mestre, estes links foram uma decepção. Murphy os abraçou e eu não consegui extrair o sumo deles.
+  </p>
+  <ul style="list-style-type: square; color: #d85a5a;">
+    <% failed_bookmarks.each do |b| %>
+      <li style="margin-bottom: 0.5rem;"><%= link_to b.url, b.url, target: "_blank", rel: "noopener", style: "color: #d85a5a;" %></li>
+    <% end %>
+  </ul>
+<% end %>

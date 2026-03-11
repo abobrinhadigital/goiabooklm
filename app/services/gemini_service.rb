@@ -29,18 +29,25 @@ class GeminiService
     end
   end
 
-  def self.generate_digest(bookmarks, type = "Diário")
-    return "Nenhum link encontrado para o período." if bookmarks.empty? || ENV["GEMINI_API_KEY"].blank?
+  def self.generate_digest(bookmarks, type = "Resumido", failed_bookmarks = [])
+    return "Nenhum link encontrado para o período." if bookmarks.empty? && failed_bookmarks.empty?
+    return "Erro de API Key." if ENV["GEMINI_API_KEY"].blank?
 
     client = ::Gemini.new(
       credentials: { service: "generative-language-api", api_key: ENV["GEMINI_API_KEY"] },
       options: { model: "gemini-2.5-flash" }
     )
 
-    links_text = bookmarks.map { |b| "Título: #{b.title}\nResumo Original: #{b.summary}\n---" }.join("\n")
+    links_text = bookmarks.map { |b| "Título: #{b.title}\nURL: #{b.url}\nResumo Original: #{b.summary}\n---" }.join("\n")
+    
+    if failed_bookmarks.any?
+      links_text += "\n\nLINKS QUE FALHARAM (SATIRIZE ESTES NO FINAL):\n"
+      links_text += failed_bookmarks.map { |b| "URL: #{b.url} (ERRO DE PROCESSAMENTO)" }.join("\n")
+    end
 
     prompt_template = File.read(Rails.root.join("config", "prompts", "digest_prompt.txt"))
     prompt = prompt_template % { type: type, links_text: links_text[0..25000] }
+
 
     begin
       response = client.generate_content({ contents: { role: "user", parts: { text: prompt } } })

@@ -27,7 +27,6 @@ class ProcessBookmarkJob < ApplicationJob
         extracted_title = doc.title || "Sem Título (#{bookmark.url})"
         bookmark.title = extracted_title if bookmark.title.blank?
 
-        bookmark.content = markdown
         bookmark.summary = "A página bateu de cara num muro invisível (paywall, bloqueio de bots ou excesso de JavaScript). Nem gastei meus neurônios de IA tentando ler esse resto de lixo, mestre."
         bookmark.status = 1 # Processado com Sucesso
       else
@@ -35,16 +34,18 @@ class ProcessBookmarkJob < ApplicationJob
         extracted_title = doc.title || "Sem Título (#{bookmark.url})"
         bookmark.title = extracted_title if bookmark.title.blank?
 
-        bookmark.content = markdown
         bookmark.summary = GeminiService.summarize(markdown)
         bookmark.status = 1 # Processado com Sucesso
       end
 
-      bookmark.save(validate: false)
+      if bookmark.save(validate: false)
+        bookmark.broadcast_replace_to "bookmarks"
+      end
     rescue => e
       error_msg = e.message
       Rails.logger.error("ProcessBookmarkJob Falhou: #{error_msg}")
       bookmark.update_columns(summary: error_msg, status: 2) # status: 2 = erro (IA Capotou)
+      bookmark.broadcast_replace_to "bookmarks"
     end
   end
 end

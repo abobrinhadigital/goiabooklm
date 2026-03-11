@@ -7,15 +7,17 @@
     <%= link_to URI.parse(bookmark.url).host || bookmark.url, bookmark.url, target: "_blank", rel: "noopener" %>
   </div>
 
-  <div class="bookmark-meta">
-    Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | 
-    <% if bookmark.status == 0 %>
-      <span class="badge badge-pending">Na Fila de Resumo</span>
-    <% elsif bookmark.status == 1 %>
-      <span class="badge badge-processed">Esmiuçado</span>
-    <% else %>
-      <span class="badge badge-error">IA Capotou</span>
-    <% end %>
+  <div class="bookmark-meta" style="display: flex; align-items: center; gap: 0.5rem;">
+    <span>Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | </span>
+    <span class="status-indicator" title="Status: <%= bookmark.status %>">
+      <% if bookmark.status == 0 %>
+        <i class="fa-solid fa-circle text-gray-400" style="color: #9ca3af;" title="Na Fila"></i>
+      <% elsif bookmark.status == 1 %>
+        <i class="fa-solid fa-circle text-green-500" style="color: #22c55e;" title="Esmiuçado"></i>
+      <% else %>
+        <i class="fa-solid fa-circle text-red-500" style="color: #ef4444;" title="IA Capotou"></i>
+      <% end %>
+    </span>
   </div>
 
   <% if bookmark.summary.present? %>
@@ -28,8 +30,21 @@
     </div>
   <% end %>
 
-  <div class="card-actions" style="margin-top: 1rem; padding-top: 0.8rem; justify-content: space-between; align-items: center;">
-    <%= link_to "Ver Artigo Salvo", bookmark, class: "btn", data: { turbo_frame: "modal" }, style: "border: 1px solid #555; color: #aaa; text-align: center;" %>
-    <%= button_to (bookmark.read ? "Desmarcar Leitura" : "Marcar Lida"), toggle_read_bookmark_path(bookmark), method: :patch, class: "btn #{bookmark.read ? '' : 'btn-primary'}", style: "margin: 0;" %>
+  <div class="card-actions" style="margin-top: 1rem; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);">
+    <div class="action-group-left">
+      <%= button_to bookmark_path(bookmark), method: :delete, data: { turbo_confirm: "Tem certeza que deseja deletar esta abobrinha?" }, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #ef4444;", title: "Apagar" do %>
+        <i class="fa-solid fa-trash-can"></i>
+      <% end %>
+    </div>
+
+    <div class="action-group-right" style="display: flex; gap: 1rem;">
+      <%= button_to toggle_favorite_bookmark_path(bookmark), method: :patch, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; #{bookmark.favorite ? 'color: #eab308;' : 'color: #9ca3af;'}", title: bookmark.favorite ? "Desfavoritar" : "Favoritar" do %>
+        <i class="fa-<%= bookmark.favorite ? 'solid' : 'regular' %> fa-bookmark"></i>
+      <% end %>
+
+      <%= button_to toggle_read_bookmark_path(bookmark), method: :patch, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; #{bookmark.read ? 'color: #22c55e;' : 'color: #9ca3af;'}", title: bookmark.read ? "Desmarcar Leitura" : "Marcar como Lido" do %>
+        <i class="fa-solid fa-check-circle"></i>
+      <% end %>
+    </div>
   </div>
 </div>

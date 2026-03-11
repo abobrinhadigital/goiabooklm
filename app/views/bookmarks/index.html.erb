@@ -2,29 +2,31 @@
 
 <%= turbo_frame_tag "modal" %>
 
-<div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 2rem;">
-  <%= link_to "Adicionar Novo Favorito", new_bookmark_path, class: "btn btn-primary" %>
+<div style="margin-bottom: 2rem;">
+  <h3>Adicionar Nova Abobrinha</h3>
+  <%= render 'form', bookmark: Bookmark.new %>
+</div>
+
+<div class="tabs" style="display: flex; gap: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">
+  <%= link_to "Todos", bookmarks_path, class: "tab", style: "text-decoration: none; color: #{!params[:favorites] && !params[:unread] ? 'var(--text-color)' : '#aaa'}; font-weight: #{!params[:favorites] && !params[:unread] ? 'bold' : 'normal'}; #{!params[:favorites] && !params[:unread] ? 'border-bottom: 2px solid #eab308; padding-bottom: 0.5rem;' : 'padding-bottom: 0.5rem;'}" %>
+  
+  <%= link_to "Não Lidas", bookmarks_path(unread: 'true', query: params[:query]), class: "tab", style: "text-decoration: none; color: #{params[:unread] == 'true' ? 'var(--text-color)' : '#aaa'}; font-weight: #{params[:unread] == 'true' ? 'bold' : 'normal'}; #{params[:unread] == 'true' ? 'border-bottom: 2px solid #eab308; padding-bottom: 0.5rem;' : 'padding-bottom: 0.5rem;'}" %>
+
+  <%= link_to "Favoritos", bookmarks_path(favorites: 'true', query: params[:query]), class: "tab", style: "text-decoration: none; color: #{params[:favorites] == 'true' ? 'var(--text-color)' : '#aaa'}; font-weight: #{params[:favorites] == 'true' ? 'bold' : 'normal'}; #{params[:favorites] == 'true' ? 'border-bottom: 2px solid #eab308; padding-bottom: 0.5rem;' : 'padding-bottom: 0.5rem;'}" %>
 </div>
 
 <div style="margin-bottom: 2rem; background-color: var(--card-bg); padding: 1rem; border-radius: 8px;">
   <%= form_with url: bookmarks_path, method: :get, local: true, class: "search-form", data: { turbo_frame: "_top" } do |f| %>
     <%= f.hidden_field :unread, value: params[:unread] if params[:unread] == 'true' %>
+    <%= f.hidden_field :favorites, value: params[:favorites] if params[:favorites] == 'true' %>
     
-    <div style="display: flex; flex-direction: column; gap: 15px;">
+    <div style="display: flex; gap: 10px; align-items: stretch; width: 100%;">
+      <%= f.text_field :query, value: params[:query], placeholder: "Buscar nos devaneios da rede...", style: "flex-grow: 1; margin: 0; min-width: 0;" %>
+      <%= f.submit "Buscar", class: "btn btn-primary", style: "margin: 0; flex-shrink: 0;" %>
       
-      <div style="display: flex; gap: 10px; align-items: stretch; width: 100%;">
-        <%= f.text_field :query, value: params[:query], placeholder: "Buscar nos devaneios da rede...", style: "flex-grow: 1; margin: 0; min-width: 0;" %>
-        <%= f.submit "Farejar", class: "btn btn-primary", style: "margin: 0; flex-shrink: 0;" %>
-      </div>
-
-      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <%= link_to (params[:unread] == 'true' ? "✕ Exibindo Apenas Não Lidas" : "Filtrar: Só Não Lidas"), bookmarks_path(query: params[:query], unread: (params[:unread] == 'true' ? nil : 'true')), class: "btn #{params[:unread] == 'true' ? 'btn-primary' : ''}", style: "margin: 0;" %>
-
-        <% if params[:query].present? || params[:unread].present? %>
-          <%= link_to "Limpar", bookmarks_path, class: "btn", style: "border: none; margin: 0; color: #aaa;" %>
-        <% end %>
-      </div>
-
+      <% if params[:query].present? %>
+        <%= link_to "Limpar", bookmarks_path(unread: params[:unread], favorites: params[:favorites]), class: "btn", style: "border: none; margin: 0; color: #aaa; flex-shrink: 0;" %>
+      <% end %>
     </div>
   <% end %>
 </div>
@@ -34,3 +36,11 @@
     <%= render bookmark %>
   <% end %>
 </div>
+
+<% if @pagy.pages > 1 %>
+  <div style="display: flex; justify-content: center; margin-top: 3rem; margin-bottom: 3rem;">
+    <nav class="pagy-nav">
+      <%== pagy_nav(@pagy) %>
+    </nav>
+  </div>
+<% end %>

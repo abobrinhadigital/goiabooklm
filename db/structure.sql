@@ -70,8 +70,10 @@ FOREIGN KEY ("job_id")
  ON DELETE CASCADE);
 CREATE UNIQUE INDEX "index_solid_queue_scheduled_executions_on_job_id" ON "solid_queue_scheduled_executions" ("job_id") /*application='Goiabooklm'*/;
 CREATE INDEX "index_solid_queue_dispatch_all" ON "solid_queue_scheduled_executions" ("scheduled_at", "priority", "job_id") /*application='Goiabooklm'*/;
-CREATE TABLE IF NOT EXISTS "bookmarks" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar, "title" varchar, "description" text, "content" text, "summary" text, "status" integer, "read" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL);
+CREATE TABLE IF NOT EXISTS "bookmarks" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "url" varchar, "title" varchar, "description" text, "summary" text, "status" integer, "read" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "favorite" boolean DEFAULT FALSE);
 INSERT INTO "schema_migrations" (version) VALUES
+('20260311133952'),
+('20260311133951'),
 ('20260307004623'),
 ('20260306222013'),
 ('20260306213731'),

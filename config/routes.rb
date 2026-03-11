@@ -4,11 +4,12 @@ Rails.application.routes.draw do
       resources :bookmarks, only: [ :create ], defaults: { format: :json }
     end
   end
-  get "digests/daily"
-  get "digests/weekly"
+  get "bulletin" => "bulletins#show", as: :bulletin
+
   resources :bookmarks do
     member do
       patch :toggle_read
+      patch :toggle_favorite
     end
   end
   devise_for :users

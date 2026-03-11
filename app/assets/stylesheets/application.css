@@ -336,3 +336,50 @@ textarea:focus {
   line-height: 1.8;
   font-size: 1.05rem;
 }
+
+/* Paginação Pagy - Estilo Premium */
+.pagy-nav {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.pagy-nav a, 
+.pagy-nav .page {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  min-width: 40px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-main);
+  font-weight: 500;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.pagy-nav a:hover {
+  background-color: var(--border-color);
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+
+.pagy-nav .page.current {
+  background-color: var(--accent);
+  color: #000;
+  border-color: var(--accent);
+  font-weight: bold;
+}
+
+.pagy-nav .page.disabled {
+  color: #555;
+  pointer-events: none;
+  border-color: #333;
+}
+
+.pagy-nav .gap {
+  color: #555;
+  padding: 0.5rem;
+}
