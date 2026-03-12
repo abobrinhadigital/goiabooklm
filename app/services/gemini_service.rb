@@ -7,16 +7,13 @@ class GeminiService
         service: "generative-language-api",
         api_key: ENV["GEMINI_API_KEY"]
       },
-      options: { model: "gemini-2.5-flash" }
+      options: { model: "gemini-2.5-flash", timeout: 30 }
     )
 
     prompt_template = File.read(Rails.root.join("config", "prompts", "summary_prompt.txt"))
     prompt = prompt_template % { text: text[0..20000] }
 
     begin
-      # Configura o timeout para evitar que o Job fique pendurado eternamente
-      client.options[:timeout] = 30 
-      
       response = client.generate_content({ contents: { role: "user", parts: { text: prompt } } })
       candidate = response.dig("candidates", 0)
       if candidate && candidate.dig("content", "parts", 0, "text").present?
@@ -46,7 +43,7 @@ class GeminiService
 
     client = ::Gemini.new(
       credentials: { service: "generative-language-api", api_key: ENV["GEMINI_API_KEY"] },
-      options: { model: "gemini-2.5-flash" }
+      options: { model: "gemini-2.5-flash", timeout: 30 }
     )
 
     links_text = bookmarks.map { |b| "Título: #{b.title}\nURL: #{b.url}\nResumo Original: #{b.summary}\n---" }.join("\n")
