@@ -10,10 +10,17 @@ class ProcessBookmarkJob < ApplicationJob
     return unless bookmark
 
     begin
+      # Headers para tentar passar por um navegador real e evitar erros 429 (Too Many Requests)
+      headers = {
+        "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Language" => "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Referer" => "https://www.google.com/"
+      }
+
       html = URI.open(
         bookmark.url,
-        "User-Agent" => "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-        ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE
+        headers.merge(ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
       ).read
       doc = Readability::Document.new(html, tags: %w[div p h1 h2 h3 h4 h5 h6 ul ol li strong em pre code blockquote img a])
 
@@ -46,10 +53,18 @@ class ProcessBookmarkJob < ApplicationJob
       Rails.logger.error("ProcessBookmarkJob Falhou: #{error_msg}")
       
       # Garantimos que o status mude para 2 (Erro) e o mestre veja o motivo no card
+      final_error = if error_msg.include?("429")
+        "O site bloqueou o acesso do Pollux (Too Many Requests). Tente novamente mais tarde."
+      elsif error_msg.include?("403")
+        "Acesso Proibido. O site detectou o nosso trator e barrou a entrada."
+      else
+        error_msg
+      end
+
       bookmark.update_columns(
-        summary: "> **[IA CAPOTOU]** #{error_msg}", 
+        summary: "> **[IA CAPOTOU]** #{final_error}", 
         status: 2
-      ) 
+      )
       bookmark.broadcast_replace_to "bookmarks"
     end
   end
