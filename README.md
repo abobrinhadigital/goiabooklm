@@ -18,7 +18,9 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 ## Funcionalidades Principais
 
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
+- **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
 - Resumos de IA: Resumos curtos e honestos (da perspectiva do Pollux) para cada link salvo.
+- **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização e comportamento do sistema.
 - Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.
 - Paginação Premium: Navegação fluida via gem Pagy com interface amigável.
 - Busca Robusta: Sistema de busca que varre títulos, conteúdos, resumos e URLs.

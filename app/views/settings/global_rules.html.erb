@@ -1,0 +1,126 @@
+<div class="settings-container" data-controller="rules-viewer">
+  <div class="page-header">
+    <h1><i class="fa-solid fa-list-check"></i> Regras Globais (ClearURLs)</h1>
+    <p class="subtitle">A base de conhecimento comunitária contra rastreadores.</p>
+    
+    <div class="sync-badge">
+      <i class="fa-solid fa-clock-rotate-left"></i> 
+      Última Sincronização: <strong><%= @last_sync.presence || "Nunca" %></strong>
+    </div>
+  </div>
+
+  <div class="search-box card-settings" style="margin-bottom: 2rem;">
+    <input type="text" placeholder="Buscar por host ou regra (ex: amazon, google, utm)..." 
+           class="search-input" data-action="input->rules-viewer#search">
+  </div>
+
+  <div class="rules-explorer">
+    <div class="section-title">
+      <h2><i class="fa-solid fa-earth-americas"></i> Regras Universais (Global Rules)</h2>
+    </div>
+    <div class="rules-grid">
+      <% (@automated_rules.dig("globalRules", "rules") || []).each do |rule| %>
+        <div class="rule-chip" data-rules-viewer-target="rule" data-search-term="<%= rule %>">
+          <code><%= rule %></code>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="section-title" style="margin-top: 3rem;">
+      <h2><i class="fa-solid fa-sitemap"></i> Regras por Servidor (Providers)</h2>
+    </div>
+    
+    <div class="providers-list">
+      <% (@automated_rules["providers"] || {}).each do |name, config| %>
+        <div class="provider-item card-settings" data-rules-viewer-target="rule" data-search-term="<%= name %> <%= config["urlPattern"] %>">
+          <div class="provider-header">
+            <h3><%= name.capitalize %></h3>
+            <span class="pattern"><%= config["urlPattern"] %></span>
+          </div>
+          <div class="provider-rules">
+            <% (config["rules"] || []).each do |rule| %>
+              <span class="rule-tag"><code><%= rule %></code></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sync-badge {
+    background: rgba(251, 192, 45, 0.1);
+    border: 1px solid var(--accent);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .section-title h2 {
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+  
+  .rules-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .rule-chip {
+    background: #111;
+    border: 1px solid #333;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+  
+  .provider-item {
+    margin-bottom: 1rem;
+  }
+  
+  .provider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .provider-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+  
+  .pattern {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #666;
+  }
+  
+  .rule-tag {
+    background: #000;
+    border: 1px solid #222;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    margin-right: 0.3rem;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+    font-size: 0.8rem;
+    color: #aaa;
+  }
+  
+  .search-input {
+    border-color: #444 !important;
+  }
+  
+  .search-input:focus {
+    border-color: var(--accent) !important;
+  }
+</style>

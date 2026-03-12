@@ -27,7 +27,7 @@
   </head>
 
   <body>
-    <header class="navbar">
+    <header class="navbar" data-controller="cockpit">
       <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
         <div class="navbar-brand">
           <%= link_to root_path do %>
@@ -38,7 +38,36 @@
           <div class="navbar-links" style="display: flex; align-items: center; gap: 1.5rem;">
             <%= link_to "Boletim resumido", bulletin_path, style: "margin: 0;" %>
 
-            <%= button_to "Sair", destroy_user_session_path, method: :delete, form: { style: "margin: 0; padding: 0;" }, class: "btn", style: "margin: 0;" %>
+            <button data-action="click->cockpit#open" class="btn btn-primary" style="padding: 0.5rem 0.8rem; line-height: 1;" aria-label="Menu de Configurações">
+              <i class="fa-solid fa-bars"></i>
+            </button>
+          </div>
+
+          <!-- Modal do Cockpit (Menu Hamburguer) -->
+          <div data-cockpit-target="modal" data-action="click->cockpit#closeOnClickOutside" class="modal-overlay" style="display: none;">
+            <div class="modal-content cockpit-panel">
+              <div class="modal-header">
+                <h3><i class="fa-solid fa-gears"></i> Configurações</h3>
+                <button data-action="click->cockpit#close" class="btn-close">&times;</button>
+              </div>
+              <div class="modal-body">
+                <nav class="cockpit-nav">
+                  <%= link_to settings_edit_rules_path, class: "cockpit-link" do %>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Sanitização (Editor JSON)
+                  <% end %>
+                  
+                  <%= link_to settings_global_rules_path, class: "cockpit-link" do %>
+                    <i class="fa-solid fa-list-check"></i> Regras Globais (ClearURLs)
+                  <% end %>
+                  
+                  <div class="cockpit-divider"></div>
+                  
+                  <%= button_to destroy_user_session_path, method: :delete, class: "cockpit-link logout-link", data: { turbo: false } do %>
+                    <i class="fa-solid fa-right-from-bracket"></i> Sair do Sistema
+                  <% end %>
+                </nav>
+              </div>
+            </div>
           </div>
         <% end %>
       </div>

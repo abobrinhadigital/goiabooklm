@@ -1,7 +1,20 @@
-# Changelog
+## [3.0.0] - 2026-03-12 (Pendente)
 
-Todas as mudanças notáveis deste projeto serão documentadas neste arquivo.
-O formato é baseado no [Keep a Changelog](https://keepachangelog.com/pt-BR/1.0.0/).
+### Adicionado
+- **Central de Configurações**: Novo painel lateral (Dashboard) para gerenciar o comportamento do biógrafo sem sujar as mãos no código.
+- **Incinerador de Links (UrlSanitizer)**: Motor de higienização de URLs que remove rastreadores (UTMs, trackers da Amazon, MetroBYT, etc.) antes de salvar o bookmark.
+- **Regras Customizadas**: Suporte a regras globais e por provedor (provider rules) via JSON, permitindo ao mestre caçar trackers de nicho que o ClearURLs ignora.
+- **Sincronização Atômica**: Integração profunda com a API do ClearURLs, com atualização semanal automática via `recurring.yml` e carga inicial via `bin/setup`.
+
+### Alterado
+- **Branding "Configurações"**: Extinção do termo "Cockpit" em favor de "Configurações", alinhando a semântica com a elegância operacional do mestre.
+- **UI de Configuração**: Interface refinada com fontes reduzidas e ícones alinhados milimetricamente para o visual "Parrudão Black & Yellow".
+
+### Corrigido
+- **Address already in use (Fim do Zumbi)**: Identificação e eliminação definitiva de processos órfãos que sequestravam a porta 3000 em ambiente de produção local.
+- **NoMethodError (CGI.parse)**: Adicionada a dependência `cgi` no `UrlSanitizer` para evitar crashes durante a limpeza de parâmetros.
+- **StatementInvalid (Missing Settings Table)**: Corrigido o fluxo de setup para garantir que a tabela de configurações seja migrada antes do primeiro uso.
+
 
 ## [2.2.0] - 2026-03-11
 

@@ -410,6 +410,155 @@ label {
   font-size: 1.05rem;
 }
 
+/* 
+ * Configurações (Menu Hamburguer & Modal)
+ * O painel de comando do Mestre
+ */
+.btn-icon {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover {
+  color: var(--accent-hover);
+  transform: scale(1.1);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  justify-content: flex-end; /* Abre lateralmente */
+  animation: fadeIn 0.3s ease;
+}
+
+.cockpit-panel {
+  width: 100%;
+  max-width: 350px;
+  background: #0a0a0a;
+  height: 100%;
+  border-left: 2px solid var(--accent);
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  animation: slideInRight 0.3s ease;
+}
+
+.modal-header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: var(--accent);
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.btn-close:hover {
+  color: #fff;
+}
+
+.cockpit-nav {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cockpit-link {
+  padding: 0.8rem 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: all 0.2s;
+  border-left: 4px solid transparent;
+  text-decoration: none;
+}
+
+.cockpit-link i {
+  width: 20px;
+  text-align: center;
+  color: var(--accent);
+}
+
+.cockpit-link:hover {
+  background: rgba(251, 192, 45, 0.05);
+  color: #fff;
+  border-left-color: var(--accent);
+  text-decoration: none;
+}
+
+.cockpit-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 1rem 2rem;
+}
+
+.logout-link {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  margin-top: auto;
+}
+
+.logout-link i {
+  color: #d85a5a;
+}
+
+.logout-link:hover {
+  background: rgba(216, 90, 90, 0.05);
+  color: #fff;
+  border-left-color: #d85a5a;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
 /* Paginação Pagy - Estilo Premium */
 .pagy-nav {
   display: flex;

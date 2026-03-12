@@ -1,0 +1,74 @@
+<div class="settings-container">
+  <div class="page-header">
+    <h1><i class="fa-solid fa-wand-magic-sparkles"></i> Higienização de URLs</h1>
+    <p class="subtitle">O mestre define as regras, a máquina incineradores o lixo.</p>
+  </div>
+
+  <div class="card-settings">
+    <%= form_with url: settings_update_rules_path, method: :patch, local: true do |f| %>
+      <div class="form-group">
+        <%= f.label :custom_rules_json, "Regras Customizadas (JSON)" %>
+        <p class="help-text">Siga o padrão ClearURLs: Use <code>"providers"</code> para sites específicos e <code>"globalRules"</code> para lixo universal.</p>
+        <%= f.text_area :custom_rules_json, value: @custom_rules_json, rows: 20, class: "json-editor", placeholder: '{"globalRules": {"rules": ["utm_.*"]}}' %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Impor Regras Customizadas", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", root_path, class: "btn" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="help-section card-settings" style="margin-top: 2rem;">
+    <h3><i class="fa-solid fa-circle-info"></i> Guia Rápido do Mestre</h3>
+    <p>As regras customizadas são mescladas com as regras globais. O que você escrever aqui tem <strong>prioridade total</strong>.</p>
+    <pre class="code-example">
+{
+  "globalRules": {
+    "rules": ["meu_tracker_chato"]
+  },
+  "providers": {
+    "amazon": {
+      "urlPattern": "^https?:\\/\\/.*amazon.*",
+      "rules": ["parrudo_id"]
+    }
+  }
+}</pre>
+  </div>
+</div>
+
+<style>
+  .settings-container {
+    padding: 1rem;
+  }
+  
+  .json-editor {
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #050505 !important;
+    border: 1px solid var(--accent) !important;
+    color: #00ff00 !important; /* Estética terminal */
+  }
+
+  .card-settings {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+  }
+  
+  .help-text {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+  
+  .code-example {
+    background: #000;
+    padding: 1rem;
+    border-radius: 4px;
+    color: #aaa;
+    font-size: 0.85rem;
+  }
+</style>

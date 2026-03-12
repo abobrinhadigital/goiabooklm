@@ -1,6 +1,9 @@
 class Bookmark < ApplicationRecord
   validates :url, presence: true, uniqueness: true
 
+  # Sanitiza a URL antes da validação
+  before_validation :sanitize_url
+
   # Set default values before validation
   after_initialize :set_defaults, if: :new_record?
 
@@ -19,6 +22,10 @@ class Bookmark < ApplicationRecord
   end
 
   private
+
+  def sanitize_url
+    self.url = UrlSanitizer.call(self.url) if self.url.present?
+  end
 
   def set_defaults
     self.status ||= 0

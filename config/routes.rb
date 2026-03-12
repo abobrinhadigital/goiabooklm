@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  # Cockpit & Settings
+  scope :settings, as: :settings do
+    get "edit_rules", to: "settings#edit_rules"
+    get "global_rules", to: "settings#global_rules"
+    patch "update_rules", to: "settings#update_rules"
+  end
   namespace :api do
     namespace :v1 do
       resources :bookmarks, only: [ :create ], defaults: { format: :json }

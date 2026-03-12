@@ -1,9 +1,28 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# Configurações Iniciais do GoiabookLM
+puts "Dando vida ao Cockpit..."
+
+# Template inicial de regras customizadas (JSON)
+custom_rules_template = {
+  "providers": {
+    "youtube": {
+      "urlPattern": "^https?:\\/\\/(?:[a-z0-9-]+\\.)*?(youtube\\.com|youtu\\.be)",
+      "rules": ["feature", "si", "pp"]
+    }
+  },
+  "globalRules": {
+    "rules": ["utm_[a-z_]*", "fbclid", "gclid"]
+  }
+}
+
+Setting.set("custom_rules", custom_rules_template)
+
+# Dispara a primeira sincronização do ClearURLs (Bloqueante no setup para garantir que o mestre tenha regras)
+puts "Sincronizando incineradores do ClearURLs (isso pode levar alguns segundos)..."
+begin
+  SyncClearUrlsJob.perform_now
+  puts "Sincronização concluída: #{Setting.get("last_automated_sync_at")}"
+rescue => e
+  puts "Aviso: Falha na sincronização inicial do ClearURLs. O mestre terá apenas as regras customizadas por enquanto. Erro: #{e.message}"
+end
+
+puts "Cockpit pronto para decolagem!"
