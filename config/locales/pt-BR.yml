@@ -20,6 +20,7 @@ pt-BR:
             url:
               blank: "não pode ficar em branco"
               invalid: "não é uma URL válida"
+              taken: "já foi cadastrado(a)"
   bookmarks:
     created: "Link salvo com sucesso!"
     updated: "Link atualizado com sucesso!"
@@ -32,3 +33,6 @@ pt-BR:
   errors:
     messages:
       not_found: "Não encontrado."
+      taken: "já está em uso"
+      blank: "não pode ficar em branco"
+      invalid: "é inválido(a)"
