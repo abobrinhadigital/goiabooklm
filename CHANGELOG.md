@@ -1,3 +1,18 @@
+## [3.1.0] - 2026-03-12
+
+### Adicionado
+- **Resiliência Anti-Caos (IA Blindada)**: Implementação de timeouts de 30s no `GeminiService` e tratamento robusto de erros de rede, cota e bloqueios do Cloudflare (429/403).
+- **Diagnóstico Transparente**: Em caso de falha, o biógrafo agora avisa explicitamente se a IA capotou, se a cota acabou ou se o site barrou o trator, exibindo o diagnóstico direto no card.
+- **Cronologia Visual Corrigida**: Distinção semântica entre pendência inicial (Ícone de Relógio) e reprocessamento manual via varinha (Ícone de Ampulheta).
+
+### Alterado
+- **Disfarce de Navegador**: O `ProcessBookmarkJob` agora usa headers de requisição realistas (User-Agent, Accept-Language, Referer) para tentar infiltrar-se em sites protegidos.
+- **Limpeza de Palco**: Ao clicar na varinha, o resumo antigo é instantaneamente apagado para dar lugar à nova tentativa.
+
+### Corrigido
+- **NoMethodError (Gemini Client)**: Correção da inicialização do cliente Gemini que causava crash ao configurar opções após a criação.
+- **Sincronização Turbo**: Garantia de que as mensagens de erro de IA sejam transmitidas instantaneamente para a tela do mestre via Turbo Stream.
+
 ## [3.0.0] - 2026-03-12
 
 ### Adicionado

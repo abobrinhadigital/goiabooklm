@@ -18,6 +18,9 @@ class ProcessBookmarkJob < ApplicationJob
         "Referer" => "https://www.google.com/"
       }
 
+      # Adiciona um pequeno atraso aleatório para quebrar a cadência robótica
+      sleep(rand(1..3))
+
       html = URI.open(
         bookmark.url,
         headers.merge(ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)
@@ -54,14 +57,14 @@ class ProcessBookmarkJob < ApplicationJob
       
       # Garantimos que o status mude para 2 (Erro) e o mestre veja o motivo no card
       final_error = if error_msg.include?("429")
-        "O site bloqueou o acesso do Pollux (Too Many Requests). Tente novamente mais tarde."
+        "O site está de ressaca (Too Many Requests). O Pollux foi barrado. Tente a varinha novamente daqui a pouco."
       elsif error_msg.include?("403")
         "Acesso Proibido. O site detectou o nosso trator e barrou a entrada."
       else
         error_msg
       end
 
-      bookmark.update_columns(
+      bookmark.update(
         summary: "> **[IA CAPOTOU]** #{final_error}", 
         status: 2
       )
