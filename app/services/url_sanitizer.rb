@@ -9,7 +9,7 @@ class UrlSanitizer
       return url unless uri.query
 
       params = CGI.parse(uri.query)
-      rules = fetch_merged_rules(uri.host)
+      rules = fetch_merged_rules(url, uri.host)
 
       # Limpa os parâmetros
       clean_params = params.reject do |key, _|
@@ -33,25 +33,25 @@ class UrlSanitizer
 
   private
 
-  def self.fetch_merged_rules(host)
+  def self.fetch_merged_rules(full_url, host)
     # Pega as regras automatizadas do banco (JSON)
     automated = Setting.get("automated_rules") || { "globalRules" => { "rules" => [] }, "providers" => {} }
     
     # Pega as regras customizadas do banco (JSON)
     custom = Setting.get("custom_rules") || { "globalRules" => { "rules" => [] }, "providers" => {} }
 
-    # Mescla as regras (Deep Merge simplificado)
+    # Mescla as regras globais
     global_rules = (automated.dig("globalRules", "rules") || []) + (custom.dig("globalRules", "rules") || [])
     
-    # Busca regras específicas do provider (host)
+    # Busca regras específicas do provider
     provider_rules = []
     
     # Helper para criar regex de forma segura
-    safe_host_match = ->(pattern, target_host) {
+    safe_match = ->(pattern, target) {
       begin
         # Escapa hífens em classes de caracteres para evitar avisos do Ruby 3
         sanitized_pattern = pattern.gsub(/(?<!\\)-/, "\\-")
-        target_host =~ Regexp.new(sanitized_pattern, Regexp::IGNORECASE)
+        target =~ Regexp.new(sanitized_pattern, Regexp::IGNORECASE)
       rescue RegexpError
         false
       end
@@ -59,14 +59,22 @@ class UrlSanitizer
 
     # Procura no automated
     automated["providers"]&.each do |name, config|
-      if safe_host_match.call(config["urlPattern"], host)
+      # Automatizadas costumam ser por host
+      if safe_match.call(config["urlPattern"], host)
         provider_rules += config["rules"] if config["rules"]
       end
     end
 
     # Procura no custom (sobrescreve/adiciona)
     custom["providers"]&.each do |name, config|
-      if safe_host_match.call(config["urlPattern"], host)
+      pattern = config["urlPattern"]
+      next unless pattern
+
+      # Se o pattern começar com 'http' ou '^http', batemos contra a URL completa
+      # Caso contrário, batemos contra o host
+      target = (pattern.start_with?("http") || pattern.start_with?("^http")) ? full_url : host
+      
+      if safe_match.call(pattern, target)
         provider_rules += config["rules"] if config["rules"]
       end
     end
