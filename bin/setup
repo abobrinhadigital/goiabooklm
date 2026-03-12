@@ -52,9 +52,9 @@ FileUtils.chdir APP_ROOT do
       true
     end
 
-    if port_in_use
-      puts "\n[! NOTE] Porta 3000 já está ocupada. Pulando a inicialização automática do servidor."
-      puts "[!] O GoiabookLM provavelmente já está rodando via systemd. Vida que segue!"
+    if port_in_use || ENV["RAILS_ENV"] == "production"
+      puts "\n[! NOTE] Ambiente de produção detectado ou porta ocupada. Pulando inicialização automática."
+      puts "[!] O GoiabookLM deve ser gerenciado via 'systemctl' em produção. Vida que segue!"
     else
       puts "\n== Starting development server =="
       STDOUT.flush
