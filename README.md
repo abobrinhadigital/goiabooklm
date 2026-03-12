@@ -17,6 +17,8 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 
 ## Funcionalidades Principais
 
+- **Internacionalização Total**: Interface, notificações e erros 100% em Português (Brasil).
+- **Reprocessamento Sob Demanda (Varinha Mágica)**: Controle manual para solicitar ou refazer resumos de IA diretamente no feed.
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
 - **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
 - Resumos de IA: Resumos curtos e honestos (da perspectiva do Pollux) para cada link salvo.

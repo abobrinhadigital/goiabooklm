@@ -1,16 +1,22 @@
-## [3.0.0] - 2026-03-12 (Pendente)
+## [3.0.0] - 2026-03-12
 
 ### Adicionado
+- **Varinha Mágica (Reprocessamento Manual)**: Introdução do botão de resumo manual (wand icon) na barra de ações, permitindo ao mestre re-invocar a IA para links travados ou falhos.
+- **Internacionalização Soberba (pt-BR)**: O sistema agora fala Português (Brasil) nativamente. Tradução integral de mensagens de erro (ActiveRecord), notificações de sistema e feedbacks de interface.
+- **Automação de Deploy (`update.sh`)**: Script para facilitar a vida do mestre, consolidando `git pull`, `bin/setup` e o reinício do serviço num único comando de "preguiça produtiva".
 - **Central de Configurações**: Novo painel lateral (Dashboard) para gerenciar o comportamento do biógrafo sem sujar as mãos no código.
 - **Incinerador de Links (UrlSanitizer)**: Motor de higienização de URLs que remove rastreadores (UTMs, trackers da Amazon, MetroBYT, etc.) antes de salvar o bookmark.
 - **Regras Customizadas**: Suporte a regras globais e por provedor (provider rules) via JSON, permitindo ao mestre caçar trackers de nicho que o ClearURLs ignora.
 - **Sincronização Atômica**: Integração profunda com a API do ClearURLs, com atualização semanal automática via `recurring.yml` e carga inicial via `bin/setup`.
 
 ### Alterado
+- **Faxina Estética (CSS Cleanup)**: Extirpação completa de estilos *inline* no card de links, movendo tudo para o `application.css` com classes semânticas.
+- **Ícones de Status Honestos**: O spinner enganoso foi substituído por um relógio amarelo estático para indicar espera, mantendo a integridade visual do sistema.
 - **Branding "Configurações"**: Extinção do termo "Cockpit" em favor de "Configurações", alinhando a semântica com a elegância operacional do mestre.
-- **UI de Configuração**: Interface refinada com fontes reduzidas e ícones alinhados milimetricamente para o visual "Parrudão Black & Yellow".
 
 ### Corrigido
+- **Erro 500 (NameError)**: Corrigida a evocação errada do Job (`ProcessArticleJob` -> `ProcessBookmarkJob`) na ação de resumo manual.
+- **Mudez do Rails (Translation Missing)**: Adicionadas traduções ausentes para validações de URLs duplicadas e campos obrigatórios.
 - **Address already in use (Fim do Zumbi)**: Identificação e eliminação definitiva de processos órfãos que sequestravam a porta 3000 em ambiente de produção local.
 - **NoMethodError (CGI.parse)**: Adicionada a dependência `cgi` no `UrlSanitizer` para evitar crashes durante a limpeza de parâmetros.
 - **StatementInvalid (Missing Settings Table)**: Corrigido o fluxo de setup para garantir que a tabela de configurações seja migrada antes do primeiro uso.
