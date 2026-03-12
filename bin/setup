@@ -1,5 +1,5 @@
-#!/usr/bin/env ruby
 require "fileutils"
+require "socket"
 
 APP_ROOT = File.expand_path("..", __dir__)
 
