@@ -85,8 +85,8 @@ class BookmarksController < ApplicationController
 
   # POST /bookmarks/1/summarize
   def summarize
-    @bookmark.update(status: 0, summary: nil)
-    ProcessBookmarkJob.perform_later(@bookmark)
+    @bookmark.update(status: 3)
+    ProcessBookmarkJob.perform_later(@bookmark.id)
     
     respond_to do |format|
       format.turbo_stream { render turbo_stream: turbo_stream.replace(@bookmark) }

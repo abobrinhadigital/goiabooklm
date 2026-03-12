@@ -11,7 +11,9 @@
     <span>Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | </span>
     <span class="status-indicator">
       <% if bookmark.status == 0 %>
-        <i class="fa-solid fa-hourglass-start status-pending" title="Aguardando Processamento"></i>
+        <i class="fa-solid fa-clock status-pending" title="Aguardando Processamento"></i>
+      <% elsif bookmark.status == 3 %>
+        <i class="fa-solid fa-hourglass-start status-pending" title="Reprocessando via Varinha"></i>
       <% elsif bookmark.status == 1 %>
         <i class="fa-solid fa-circle-check status-success" title="Esmiuçado"></i>
       <% else %>
