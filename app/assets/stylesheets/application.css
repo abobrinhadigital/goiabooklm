@@ -446,7 +446,7 @@ label {
   animation: fadeIn 0.3s ease;
 }
 
-.cockpit-panel {
+.settings-panel {
   width: 100%;
   max-width: 350px;
   background: #0a0a0a;
@@ -490,19 +490,20 @@ label {
   color: #fff;
 }
 
-.cockpit-nav {
+.settings-nav {
   padding: 1rem 0;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.cockpit-link {
-  padding: 0.8rem 1.2rem;
+.settings-link {
+  padding: 1rem 1.5rem;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 1rem;
   color: var(--text-main);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.2;
   transition: all 0.2s;
@@ -510,23 +511,23 @@ label {
   text-decoration: none;
 }
 
-.cockpit-link i {
-  width: 20px;
+.settings-link i {
+  width: 24px;
   text-align: center;
   color: var(--accent);
 }
 
-.cockpit-link:hover {
+.settings-link:hover {
   background: rgba(251, 192, 45, 0.05);
   color: #fff;
   border-left-color: var(--accent);
   text-decoration: none;
 }
 
-.cockpit-divider {
+.settings-divider {
   height: 1px;
   background: var(--border-color);
-  margin: 1rem 2rem;
+  margin: 1rem 1.5rem;
 }
 
 .logout-link {
