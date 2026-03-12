@@ -7,9 +7,9 @@
     <%= link_to URI.parse(bookmark.url).host || bookmark.url, bookmark.url, target: "_blank", rel: "noopener" %>
   </div>
 
-  <div class="bookmark-meta" style="display: flex; align-items: center; gap: 0.5rem;">
+  <div class="bookmark-meta">
     <span>Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | </span>
-    <span class="status-indicator" style="display: flex; align-items: center; gap: 0.5rem;">
+    <span class="status-indicator">
       <% if bookmark.status == 0 %>
         <i class="fa-solid fa-clock" style="color: var(--accent);" title="Aguardando Processamento"></i>
       <% elsif bookmark.status == 1 %>
@@ -25,31 +25,30 @@
       <%= render_markdown(bookmark.summary) %>
     </div>
   <% elsif bookmark.description.present? && bookmark.status != 1 %>
-    <div class="bookmark-summary" style="opacity: 0.6;">
+    <div class="bookmark-summary bookmark-description-preview">
       <%= bookmark.description %>
     </div>
   <% end %>
 
-  <div class="card-actions" style="margin-top: 1rem; padding-top: 0.8rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color);">
+  <div class="card-actions">
     <div class="action-group-left">
-      <%= button_to bookmark_path(bookmark), method: :delete, data: { turbo_confirm: "Tem certeza que deseja deletar esta abobrinha?" }, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; color: #ef4444;", title: "Apagar" do %>
+      <%= button_to bookmark_path(bookmark), method: :delete, data: { turbo_confirm: "Tem certeza que deseja deletar esta abobrinha?" }, class: "btn-icon btn-delete", title: "Apagar" do %>
         <i class="fa-solid fa-trash-can"></i>
       <% end %>
     </div>
 
-    <div class="action-group-right" style="display: flex; gap: 1rem;">
-      <%= button_to summarize_bookmark_path(bookmark), method: :post, class: "btn-icon", 
-          style: "color: var(--accent);", 
+    <div class="action-group-right">
+      <%= button_to summarize_bookmark_path(bookmark), method: :post, class: "btn-icon btn-summarize", 
           title: bookmark.summary.present? ? "Refazer Resumo" : "Solicitar Resumo",
           data: { turbo_frame: "_top" } do %>
         <i class="fa-solid fa-wand-magic-sparkles"></i>
       <% end %>
 
-      <%= button_to toggle_favorite_bookmark_path(bookmark), method: :patch, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; #{bookmark.favorite ? 'color: #eab308;' : 'color: #9ca3af;'}", title: bookmark.favorite ? "Desfavoritar" : "Favoritar" do %>
+      <%= button_to toggle_favorite_bookmark_path(bookmark), method: :patch, class: "btn-icon btn-favorite #{'active' if bookmark.favorite}", title: bookmark.favorite ? "Desfavoritar" : "Favoritar" do %>
         <i class="fa-<%= bookmark.favorite ? 'solid' : 'regular' %> fa-bookmark"></i>
       <% end %>
 
-      <%= button_to toggle_read_bookmark_path(bookmark), method: :patch, class: "btn-icon", style: "background: none; border: none; cursor: pointer; font-size: 1.2rem; #{bookmark.read ? 'color: #22c55e;' : 'color: #9ca3af;'}", title: bookmark.read ? "Desmarcar Leitura" : "Marcar como Lido" do %>
+      <%= button_to toggle_read_bookmark_path(bookmark), method: :patch, class: "btn-icon btn-read #{'active' if bookmark.read}", title: bookmark.read ? "Desmarcar Leitura" : "Marcar como Lido" do %>
         <i class="fa-solid fa-check-circle"></i>
       <% end %>
     </div>

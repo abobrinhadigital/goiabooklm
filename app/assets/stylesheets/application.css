@@ -127,6 +127,19 @@ a:hover {
   color: #888;
   font-size: 0.8rem;
   margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.bookmark-description-preview {
+  opacity: 0.6;
 }
 
 /* Caixa do Resumo (Sarcasmo da IA) */
@@ -286,11 +299,41 @@ label {
 .card-actions {
   margin-top: 1.5rem;
   border-top: 1px solid var(--border-color);
-  padding-top: 1rem;
+  padding-top: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-group-right {
   display: flex;
   gap: 1rem;
-  font-size: 0.85rem;
-  align-items: center;
+}
+
+/* Botões de Ação Específicos */
+.btn-delete {
+  color: #ef4444;
+}
+
+.btn-summarize {
+  color: var(--accent);
+  font-size: 1.1rem; /* Equilíbrio visual solicitado pelo mestre */
+}
+
+.btn-favorite {
+  color: #9ca3af;
+}
+
+.btn-favorite.active {
+  color: #eab308;
+}
+
+.btn-read {
+  color: #9ca3af;
+}
+
+.btn-read.active {
+  color: #22c55e;
 }
 
 /* Badges e Status */
