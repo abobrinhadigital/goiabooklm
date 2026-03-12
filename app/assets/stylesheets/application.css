@@ -142,6 +142,11 @@ a:hover {
   opacity: 0.6;
 }
 
+/* Cores de Status */
+.status-pending { color: var(--accent); }
+.status-success { color: #22c55e; }
+.status-error   { color: #ef4444; }
+
 /* Caixa do Resumo (Sarcasmo da IA) */
 .bookmark-summary {
   background-color: rgba(0, 0, 0, 0.2);
@@ -460,7 +465,6 @@ label {
 .btn-icon {
   background: transparent;
   border: none;
-  color: var(--accent);
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0.5rem;

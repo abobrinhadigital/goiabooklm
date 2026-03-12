@@ -11,11 +11,11 @@
     <span>Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | </span>
     <span class="status-indicator">
       <% if bookmark.status == 0 %>
-        <i class="fa-solid fa-clock" style="color: var(--accent);" title="Aguardando Processamento"></i>
+        <i class="fa-solid fa-clock status-pending" title="Aguardando Processamento"></i>
       <% elsif bookmark.status == 1 %>
-        <i class="fa-solid fa-circle-check" style="color: #22c55e;" title="Esmiuçado"></i>
+        <i class="fa-solid fa-circle-check status-success" title="Esmiuçado"></i>
       <% else %>
-        <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;" title="IA Capotou"></i>
+        <i class="fa-solid fa-circle-exclamation status-error" title="IA Capotou"></i>
       <% end %>
     </span>
   </div>
