@@ -28,8 +28,8 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.save
-        format.html { redirect_to bookmarks_path, notice: "Bookmark was successfully created." }
-        format.turbo_stream { redirect_to bookmarks_path, notice: "Bookmark was successfully created." }
+        format.html { redirect_to bookmarks_path, notice: t('bookmarks.created') }
+        format.turbo_stream { redirect_to bookmarks_path, notice: t('bookmarks.created') }
         format.json { render :show, status: :created, location: @bookmark }
       else
         error_msg = "Erro ao salvar: #{@bookmark.errors.full_messages.to_sentence}"
@@ -44,7 +44,7 @@ class BookmarksController < ApplicationController
   def update
     respond_to do |format|
       if @bookmark.update(bookmark_params)
-        format.html { redirect_to bookmarks_path, notice: "Bookmark was successfully updated.", status: :see_other }
+        format.html { redirect_to bookmarks_path, notice: t('bookmarks.updated'), status: :see_other }
         format.json { render :show, status: :ok, location: @bookmark }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,7 +58,7 @@ class BookmarksController < ApplicationController
     @bookmark.destroy!
 
     respond_to do |format|
-      format.html { redirect_to bookmarks_path, notice: "Bookmark was successfully destroyed.", status: :see_other }
+      format.html { redirect_to bookmarks_path, notice: t('bookmarks.destroyed'), status: :see_other }
       format.json { head :no_content }
     end
   end

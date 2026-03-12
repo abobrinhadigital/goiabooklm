@@ -1,0 +1,33 @@
+pt-BR:
+  hello: "Olá mundo"
+  activemodel:
+    models:
+      bookmark: "Link"
+    attributes:
+      bookmark:
+        url: "URL"
+        title: "Título"
+        description: "Descrição"
+        content: "Conteúdo"
+        summary: "Resumo"
+  activerecord:
+    models:
+      bookmark: "Link"
+    errors:
+      models:
+        bookmark:
+          attributes:
+            url:
+              blank: "não pode ficar em branco"
+              invalid: "não é uma URL válida"
+  bookmarks:
+    created: "Link salvo com sucesso!"
+    updated: "Link atualizado com sucesso!"
+    destroyed: "Link removido do arquivo."
+    not_found: "Link não encontrado."
+  bulletin:
+    processed: "Boletim processado com sucesso!"
+    empty: "Nada novo no horizonte para o boletim."
+  errors:
+    messages:
+      not_found: "Não encontrado."
