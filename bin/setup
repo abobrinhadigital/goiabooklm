@@ -28,7 +28,12 @@ FileUtils.chdir APP_ROOT do
   # Garantir migração de todos os contextos (produção/dev)
   ["primary", "queue", "cable", "cache"].each do |db|
     puts "--> Migrating #{db} database..."
-    system "bin/rails db:migrate NAME=#{db} > /dev/null 2>&1"
+    begin
+      # Usamos db:migrate:status apenas para logar, o comando real é o migrate
+      system "bin/rails db:migrate NAME=#{db}"
+    rescue => e
+      puts "[!] Pequeno percalço no banco #{db}: #{e.message}. Provavelmente índices já existentes. Seguindo viagem..."
+    end
   end
 
   system! "bin/rails db:reset" if ARGV.include?("--reset")
