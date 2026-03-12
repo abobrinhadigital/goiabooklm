@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 require "fileutils"
 require "socket"
 
@@ -26,6 +27,7 @@ FileUtils.chdir APP_ROOT do
   
   # Garantir migração de todos os contextos (produção/dev)
   ["primary", "queue", "cable", "cache"].each do |db|
+    puts "--> Migrating #{db} database..."
     system "bin/rails db:migrate NAME=#{db} > /dev/null 2>&1"
   end
 
