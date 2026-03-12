@@ -44,7 +44,12 @@ class ProcessBookmarkJob < ApplicationJob
     rescue => e
       error_msg = e.message
       Rails.logger.error("ProcessBookmarkJob Falhou: #{error_msg}")
-      bookmark.update_columns(summary: error_msg, status: 2) # status: 2 = erro (IA Capotou)
+      
+      # Garantimos que o status mude para 2 (Erro) e o mestre veja o motivo no card
+      bookmark.update_columns(
+        summary: "> **[IA CAPOTOU]** #{error_msg}", 
+        status: 2
+      ) 
       bookmark.broadcast_replace_to "bookmarks"
     end
   end

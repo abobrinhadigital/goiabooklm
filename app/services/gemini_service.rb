@@ -14,6 +14,9 @@ class GeminiService
     prompt = prompt_template % { text: text[0..20000] }
 
     begin
+      # Configura o timeout para evitar que o Job fique pendurado eternamente
+      client.options[:timeout] = 30 
+      
       response = client.generate_content({ contents: { role: "user", parts: { text: prompt } } })
       candidate = response.dig("candidates", 0)
       if candidate && candidate.dig("content", "parts", 0, "text").present?
@@ -22,8 +25,16 @@ class GeminiService
         reason = candidate&.fetch("finishReason", "UNKNOWN")
         raise "A IA bloqueou ou não gerou o texto (Motivo: #{reason})"
       end
+    rescue Faraday::Error => e
+      Rails.logger.error("GeminiService Network Error: #{e.message}")
+      raise "Erro de rede com o Google (Timeout ou Conexão)"
     rescue => e
       safe_message = e.message.gsub(/key=[^&\s]+/, "key=[REDACTED]")
+      
+      if safe_message.include?("RESOURCE_EXHAUSTED")
+        raise "Cota de IA excedida (Aguarde alguns minutos)"
+      end
+
       Rails.logger.error("GeminiService Error: #{safe_message}")
       raise "Erro na IA do Google: #{safe_message}"
     end
