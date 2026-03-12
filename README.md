@@ -53,19 +53,32 @@ cd goiabooklm
 > [!IMPORTANT]
 > Em produção, o Rails exige a `SECRET_KEY_BASE`. Gere uma executando `bundle exec rails secret` e cole o resultado no seu `.env`. Sem isso, o setup irá falhar.
 
-**2. Instalando Dependências e Bancos**
-O script mágico do Rails instalará gems e preparará os bancos. Use a flag `--skip-server` para evitar que ele trave o seu terminal no final:
+**2. Instalação Inicial**
+O script mágico do Rails instalará gems e preparará os bancos. Em servidores de produção, use o comando abaixo para garantir a migração correta:
 ```bash
 RAILS_ENV=production bin/setup --skip-server
 ```
 
-**3. Invocação Definitiva (A Imortalidade)**
-Para não ter que deixar o terminal aberto vigilante, instale o projeto como um serviço do Linux:
+> [!TIP]
+> O `bin/setup` é inteligente: ele detecta o ambiente, migra todos os bancos (Multi-DB) e pré-compila os assets automaticamente.
+
+**3. Atualizando o Sistema**
+Sempre que o mestre decidir trazer novidades do repositório, o ritual é simples:
+```bash
+git pull
+# O setup cuidará de migrações e assets pro senhor
+RAILS_ENV=production bin/setup --skip-server
+# Reinicie para o serviço ler as mudanças
+sudo systemctl restart goiabooklm
+```
+
+**4. Invocação Definitiva (A Imortalidade)**
+Para rodar em background permanentemente, instale o projeto como um serviço:
 ```bash
 chmod +x script/install_service.sh
 ./script/install_service.sh
 ```
-*(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)**(Siga as 3 instruções `sudo systemctl` fornecidas na tela pelo script e pronto!)*
+*(Siga as instruções do Systemd fornecidas na tela pelo script.)*
 
 ## Persona Pollux
 

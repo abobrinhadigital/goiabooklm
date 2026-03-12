@@ -4,6 +4,12 @@ require "socket"
 
 APP_ROOT = File.expand_path("..", __dir__)
 
+# Detecta se deve rodar em produção por padrão caso não especificado
+if !ENV["RAILS_ENV"] && File.exist?("/etc/systemd/system/goiabooklm.service")
+  ENV["RAILS_ENV"] = "production"
+  puts "[i] Serviço detectado. Assumindo RAILS_ENV=production para segurança."
+end
+
 def system!(*args)
   system(*args, exception: true)
 end
