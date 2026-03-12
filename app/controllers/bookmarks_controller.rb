@@ -85,7 +85,7 @@ class BookmarksController < ApplicationController
 
   # POST /bookmarks/1/summarize
   def summarize
-    @bookmark.update(status: 3)
+    @bookmark.update(status: 3, summary: nil)
     ProcessBookmarkJob.perform_later(@bookmark.id)
     
     respond_to do |format|
