@@ -9,13 +9,21 @@
 
   <div class="bookmark-meta" style="display: flex; align-items: center; gap: 0.5rem;">
     <span>Adicionado em <%= bookmark.created_at.strftime("%d/%m/%Y às %H:%M") %> | </span>
-    <span class="status-indicator" title="Status: <%= bookmark.status %>">
+    <span class="status-indicator" style="display: flex; align-items: center; gap: 0.5rem;">
       <% if bookmark.status == 0 %>
-        <i class="fa-solid fa-circle text-gray-400" style="color: #9ca3af;" title="Na Fila"></i>
+        <i class="fa-solid fa-spinner fa-spin" style="color: var(--accent);" title="Processando..."></i>
+        <small style="color: var(--text-muted); font-size: 0.75rem;">Na fila...</small>
       <% elsif bookmark.status == 1 %>
-        <i class="fa-solid fa-circle text-green-500" style="color: #22c55e;" title="Esmiuçado"></i>
+        <i class="fa-solid fa-circle-check" style="color: #22c55e;" title="Esmiuçado"></i>
       <% else %>
-        <i class="fa-solid fa-circle text-red-500" style="color: #ef4444;" title="IA Capotou"></i>
+        <i class="fa-solid fa-circle-exclamation" style="color: #ef4444;" title="IA Capotou"></i>
+      <% end %>
+
+      <%= button_to summarize_bookmark_path(bookmark), method: :post, class: "btn-icon-small", 
+          style: "color: var(--accent); opacity: 0.7; transition: opacity 0.2s;", 
+          title: bookmark.summary.present? ? "Refazer Resumo" : "Solicitar Resumo",
+          data: { turbo_frame: "_top" } do %>
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
       <% end %>
     </span>
   </div>

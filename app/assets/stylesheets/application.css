@@ -432,6 +432,22 @@ label {
   transform: scale(1.1);
 }
 
+.btn-icon-small {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.btn-icon-small:hover {
+  opacity: 1 !important;
+  transform: scale(1.2);
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;

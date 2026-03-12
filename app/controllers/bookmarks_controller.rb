@@ -1,5 +1,5 @@
 class BookmarksController < ApplicationController
-  before_action :set_bookmark, only: %i[ show edit update destroy toggle_read toggle_favorite ]
+  before_action :set_bookmark, only: %i[ show edit update destroy toggle_read toggle_favorite summarize ]
 
   # GET /bookmarks or /bookmarks.json
   def index
@@ -80,6 +80,18 @@ class BookmarksController < ApplicationController
       format.turbo_stream { render turbo_stream: turbo_stream.replace(@bookmark) }
       format.html { redirect_to bookmarks_path, notice: "Status de leitura atualizado." }
       format.json { render :show, status: :ok, location: @bookmark }
+    end
+  end
+
+  # POST /bookmarks/1/summarize
+  def summarize
+    @bookmark.update(status: 0, summary: nil)
+    ProcessArticleJob.perform_later(@bookmark)
+    
+    respond_to do |format|
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(@bookmark) }
+      format.html { redirect_to bookmarks_path, notice: t('bookmarks.summary_requested') }
+      format.json { head :no_content }
     end
   end
 

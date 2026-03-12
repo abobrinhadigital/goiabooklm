@@ -25,6 +25,7 @@ pt-BR:
     updated: "Link atualizado com sucesso!"
     destroyed: "Link removido do arquivo."
     not_found: "Link não encontrado."
+    summary_requested: "Solicitação de resumo enviada para a fila!"
   bulletin:
     processed: "Boletim processado com sucesso!"
     empty: "Nada novo no horizonte para o boletim."
