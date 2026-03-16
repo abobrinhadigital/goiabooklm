@@ -16,7 +16,7 @@ Ao adicionar um link, o sistema:
 3. **Organiza o Caos**: Mantém um feed cronológico com busca baseada nos resumos gerados.
 4. **Notifica pelo Pessegram**: Envia a "fofoca" (o resumo) diretamente para o Telegram se o link veio de lá.
 
-## Funcionalidades Principais
+## Funcionalidades
 
 - **Reprocessamento Sob Demanda (Varinha Mágica)**: Controle manual para solicitar ou refazer resumos de IA diretamente no feed.
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
