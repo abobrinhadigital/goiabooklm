@@ -8,17 +8,16 @@ GoiabookLM é um sistema de curadoria e arquivamento de links (favoritos) que ut
 
 ## O Que é o Projeto
 
-Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trator de conteúdo. Ao adicionar um link, o sistema:
-1. Extrai o texto limpo da página eliminando publicidade e banners.
-2. Converte o conteúdo para Markdown para leitura offline.
-3. Utiliza o Gemini 2.5 Flash para gerar um resumo irônico e ácido.
-4. Detecta automaticamente se a página foi bloqueada por paywalls ou scripts.
-5. Organiza tudo em um feed cronológico com busca textual.
-6. **Notifica o Pessegram**: Envia o resumo gerado de volta para o Telegram se o link foi enviado originalmente pelo bot.
+O GoiabookLM nasceu da necessidade visceral do mestre em gerenciar o caos informativo, começando como um agregador "read it later" humilde. Com o tempo, ele evoluiu para uma central de curadoria e favoritos inteligente, focada em economizar o tempo de quem sofre com a Lei de Murphy.
+
+Ao adicionar um link, o sistema:
+1. **Sanitiza a URL**: Remove rastreadores e lixo de marketing.
+2. **Gera Resumos Ácidos**: Usa o Gemini 2.5 Flash para criar uma síntese irônica do conteúdo, para que você não precise abrir o link se ele for inútil.
+3. **Organiza o Caos**: Mantém um feed cronológico com busca baseada nos resumos gerados.
+4. **Notifica pelo Pessegram**: Envia a "fofoca" (o resumo) diretamente para o Telegram se o link veio de lá.
 
 ## Funcionalidades Principais
 
-- **Internacionalização Total**: Interface, notificações e erros 100% em Português (Brasil).
 - **Reprocessamento Sob Demanda (Varinha Mágica)**: Controle manual para solicitar ou refazer resumos de IA diretamente no feed.
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
 - **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
@@ -26,7 +25,7 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 - **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização e comportamento do sistema.
 - Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.
 - Paginação Premium: Navegação fluida via gem Pagy com interface amigável.
-- Busca Robusta: Sistema de busca que varre títulos, conteúdos, resumos e URLs.
+- Busca Robusta: Sistema de busca que varre títulos, resumos e URLs.
 - Interface Minimalista & Editorial: Design focado na leitura e organização por abas.
 
 ## Pilha Técnica
