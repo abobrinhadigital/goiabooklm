@@ -1,3 +1,17 @@
+## [3.2.0] - 2026-03-15
+
+### Adicionado
+- **Integração Retrô-Pessegram**: Agora a Goiaba fofoca de volta! Todo link enviado via Telegram recebe um resumo automático de volta no Pessegram via `PessegramService`.
+- **Memória de Origem (`source`)**: Novo campo na tabela de bookmarks para rastrear de onde veio o link (`pessegram` ou `web`). Evita spam de notificações para links salvos via interface web.
+- **PessegramService (A "Lib" da Fofoca)**: Serviço dedicado para comunicação com a API do Pessegram, com suporte a Bearer Token e formatação ácida automática.
+
+### Alterado
+- **Orquestração de Deploys (`update.sh`)**: Script de atualização fortalecido para lidar com a "Hidra de Processos". Agora ele limpa processos órfãos do Solid Queue (`pkill -9`) e reinicia múltiplos serviços (`application` e `worker`) em harmonia.
+
+### Corrigido
+- **Morte aos Zumbis**: Correção de processos agendadores duplicados que persistiam no servidor após atualizações de código.
+- **Blindagem de Git**: Remoção de arquivos de estrutura SQL gerados automaticamente (`*_structure.sql`) do controle de versão para evitar conflitos de merge em produção.
+
 ## [3.1.0] - 2026-03-12
 
 ### Adicionado

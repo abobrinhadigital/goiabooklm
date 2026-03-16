@@ -14,6 +14,7 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 3. Utiliza o Gemini 2.5 Flash para gerar um resumo irônico e ácido.
 4. Detecta automaticamente se a página foi bloqueada por paywalls ou scripts.
 5. Organiza tudo em um feed cronológico com busca textual.
+6. **Notifica o Pessegram**: Envia o resumo gerado de volta para o Telegram se o link foi enviado originalmente pelo bot.
 
 ## Funcionalidades Principais
 
@@ -21,7 +22,7 @@ Diferente de um simples gerenciador de bookmarks, o GoiabookLM atua como um trat
 - **Reprocessamento Sob Demanda (Varinha Mágica)**: Controle manual para solicitar ou refazer resumos de IA diretamente no feed.
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
 - **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
-- Resumos de IA: Resumos curtos e honestos (da perspectiva do Pollux) para cada link salvo.
+- **Fofoca Automática (Integração Pessegram)**: Envio instantâneo de resumos ácidos de volta para o Telegram para links recebidos via API.
 - **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização e comportamento do sistema.
 - Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.
 - Paginação Premium: Navegação fluida via gem Pagy com interface amigável.
@@ -67,12 +68,11 @@ RAILS_ENV=production bin/setup --skip-server
 **3. Atualizando o Sistema**
 Sempre que o mestre decidir trazer novidades do repositório, o ritual é simples:
 ```bash
-git pull
-# O setup cuidará de migrações e assets pro senhor
-RAILS_ENV=production bin/setup --skip-server
-# Reinicie para o serviço ler as mudanças
-sudo systemctl restart goiabooklm
+RAILS_ENV=production ./update.sh
 ```
+
+> [!TIP]
+> O `update.sh` é o maestro dessa bagunça: ele limpa processos zumbis, migra o banco e reinicia todos os serviços (App e Worker) em harmonia.
 
 **4. Invocação Definitiva (A Imortalidade)**
 Para rodar em background permanentemente, instale o projeto como um serviço:
