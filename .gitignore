@@ -37,3 +37,4 @@
 /config/prompts/*
 !/config/prompts/.keep
 /db/structure.sql
+/db/*_structure.sql
