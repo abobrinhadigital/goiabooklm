@@ -16,13 +16,19 @@ echo "🛠️ Rodando o bixo (bin/setup)..."
 # Usamos RAILS_ENV=production para garantir que tudo seja compilado e migrado corretamente
 RAILS_ENV=production ./bin/setup --skip-server
 
-# 3. Reiniciar Serviço
-echo "🔄 Despertando o sistema (systemctl restart)..."
-if [ -f /etc/systemd/system/goiabooklm.service ]; then
-  systemctl restart goiabooklm
-  echo "✅ Sistema reiniciado com sucesso!"
+# 3. Reiniciar Serviços
+echo "🔄 Despertando o sistema e limpando a hidra (systemctl restart)..."
+
+# Garante que nenhum processo órfão do Solid Queue sobreviva
+pkill -9 -f solid_queue || true
+
+if [ -f /etc/systemd/system/goiabooklm.service ] || [ -f /etc/systemd/system/goiabooklm-worker.service ]; then
+  # Reinicia ambos os serviços se existirem
+  systemctl daemon-reload
+  systemctl restart goiabooklm.service goiabooklm-worker.service || echo "⚠️ Alguns serviços falharam ao reiniciar, mas o trator segue firme."
+  echo "✅ Serviços reiniciados com sucesso!"
 else
-  echo "⚠️ Aviso: Arquivo de serviço systemd não encontrado. Pulando reinício."
+  echo "⚠️ Aviso: Arquivos de serviço systemd não encontrados. Pulando reinício."
 fi
 
 echo "✨ Tudo pronto, meu mestre! O Caos foi devidamente atualizado."
