@@ -15,11 +15,11 @@ class PessegramService
     begin
       uri = URI.parse(url)
       http = Net::HTTP.new(uri.host, uri.port)
-      request = Net::HTTP::Post.new(uri.path, { "Content-Type" => "application/json" })
-      request.body = {
-        token: token,
-        mensagem: message
-      }.to_json
+      request = Net::HTTP::Post.new(uri.path, {
+        "Content-Type" => "application/json",
+        "Authorization" => "Bearer #{token}"
+      })
+      request.body = { mensagem: message }.to_json
 
       response = http.request(request)
 
