@@ -50,11 +50,12 @@ class ProcessBookmarkJob < ApplicationJob
 
       if bookmark.save(validate: false)
         bookmark.broadcast_replace_to "bookmarks"
+        PessegramService.notify(bookmark)
       end
     rescue => e
       error_msg = e.message
       Rails.logger.error("ProcessBookmarkJob Falhou: #{error_msg}")
-      
+
       # Garantimos que o status mude para 2 (Erro) e o mestre veja o motivo no card
       final_error = if error_msg.include?("429")
         "O site está de ressaca (Too Many Requests). O Pollux foi barrado. Tente a varinha novamente daqui a pouco."
@@ -65,10 +66,11 @@ class ProcessBookmarkJob < ApplicationJob
       end
 
       bookmark.update(
-        summary: "> **[IA CAPOTOU]** #{final_error}", 
+        summary: "> **[IA CAPOTOU]** #{final_error}",
         status: 2
       )
       bookmark.broadcast_replace_to "bookmarks"
+      PessegramService.notify(bookmark)
     end
   end
 end

@@ -4,10 +4,10 @@ class Api::V1::BookmarksController < ApplicationController
   before_action :require_api_token
 
   def create
-    @bookmark = Bookmark.new(url: params[:url])
+    @bookmark = Bookmark.new(url: params[:url], source: "pessegram")
 
     if @bookmark.save
-      render json: { success: true, message: "A Goiaba engoliu a URL. Sumário em andamento...", id: @bookmark.id }, status: :created
+      render json: { success: true, message: "O GoiabookLM engoliu a URL. Sumário em andamento...", id: @bookmark.id }, status: :created
     else
       render json: { success: false, errors: @bookmark.errors.full_messages }, status: :unprocessable_entity
     end
