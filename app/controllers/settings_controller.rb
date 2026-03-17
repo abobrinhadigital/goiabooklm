@@ -25,8 +25,14 @@ class SettingsController < ApplicationController
   end
 
   def edit_prompts
-    @summary_prompt = File.read(Rails.root.join("config", "prompts", "summary_prompt.md"))
-    @digest_prompt = File.read(Rails.root.join("config", "prompts", "digest_prompt.md"))
+    summary_path = Rails.root.join("config", "prompts", "summary_prompt.md")
+    digest_path = Rails.root.join("config", "prompts", "digest_prompt.md")
+
+    # Garantir que o diretório exista
+    FileUtils.mkdir_p(File.dirname(summary_path))
+
+    @summary_prompt = File.exist?(summary_path) ? File.read(summary_path) : "## Prompt de Resumo\n\n[AVISO DO POLLUX]: O arquivo original não foi encontrado no servidor. Por favor, re-escreva ou cole o prompt aqui, mestre."
+    @digest_prompt = File.exist?(digest_path) ? File.read(digest_path) : "## Prompt de Boletim\n\n[AVISO DO POLLUX]: O arquivo original não foi encontrado no servidor. Por favor, re-escreva ou cole o prompt aqui, mestre."
   end
 
   def update_prompts
