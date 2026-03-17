@@ -18,6 +18,7 @@ end
 
 private
 
-def clean_markdown(html_fragment)
-  ReverseMarkdown.convert(html_fragment.to_s, github_flavored: true)
+  def clean_markdown(html_fragment)
+    ReverseMarkdown.convert(html_fragment.to_s, github_flavored: true)
+  end
 end
