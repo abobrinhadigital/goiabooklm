@@ -58,7 +58,7 @@ class ProcessBookmarkJob < ApplicationJob
   end
 
   def extract_markdown(url, html)
-    Extractors::ExtractorFactory.extract(url, html)
+    ExtractorFactory.extract(url, html)
   end
 
   def scrapedo_url(url)
