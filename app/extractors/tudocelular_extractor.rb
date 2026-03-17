@@ -1,5 +1,5 @@
 
-class TudoCelularExtractor < BaseExtractor
+class TudocelularExtractor < BaseExtractor
   def extract
     title = @doc.css("#hero h2").first
     content = @doc.css('.content').first

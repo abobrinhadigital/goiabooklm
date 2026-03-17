@@ -4,7 +4,7 @@ class ExtractorFactory
     /howtogeek\.com/ => HowToGeekExtractor,
     /itsfoss\.com/ => ItsFossExtractor,
     "tecnoblog.net" => TecnoblogExtractor,
-    "tudocelular.com" => TudoCelularExtractor,
+    "tudocelular.com" => TudocelularExtractor,
     "gsmarena.com" => GsmArenaExtractor,
     "9to5linux.com" => NineToFiveLinuxExtractor,
     "diolinux.com.br" => DioLinuxExtractor,
