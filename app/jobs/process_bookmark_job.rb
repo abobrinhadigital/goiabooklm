@@ -20,14 +20,14 @@ class ProcessBookmarkJob < ApplicationJob
     begin
       # Tentativa 1: Acesso Direto
       html = fetch_content(bookmark.url, headers)
-      markdown = extract_markdown(html)
+      markdown = extract_markdown(bookmark.url, html)
 
       # Se o conteúdo for muito curto, pode ser WAF/Bloqueio. Tentamos o Scrape.do.
       if markdown.strip.length < 500
         Rails.logger.info("Conteúdo muito curto para #{bookmark.url}. Acionando Scrape.do...")
         used_scrapedo = true
         html = fetch_content(scrapedo_url(bookmark.url), headers)
-        markdown = extract_markdown(html)
+        markdown = extract_markdown(bookmark.url, html)
       end
 
       process_content(bookmark, markdown, used_scrapedo)
@@ -38,7 +38,7 @@ class ProcessBookmarkJob < ApplicationJob
           Rails.logger.warn("Falha no acesso direto para #{bookmark.url}: #{e.message}. Tentando Scrape.do...")
           used_scrapedo = true
           html = fetch_content(scrapedo_url(bookmark.url), headers)
-          markdown = extract_markdown(html)
+          markdown = extract_markdown(bookmark.url, html)
           process_content(bookmark, markdown, used_scrapedo)
           return # Sucesso via Scrape.do
         rescue => e_scrapedo
@@ -57,10 +57,8 @@ class ProcessBookmarkJob < ApplicationJob
     URI.open(url, headers.merge(ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE)).read
   end
 
-  def extract_markdown(html)
-    doc = Readability::Document.new(html, tags: %w[div p h1 h2 h3 h4 h5 h6 ul ol li strong em pre code blockquote img a])
-    clean_html = doc.content
-    ReverseMarkdown.convert(clean_html, github_flavored: true)
+  def extract_markdown(url, html)
+    Extractors::ExtractorFactory.extract(url, html)
   end
 
   def scrapedo_url(url)

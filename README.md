@@ -21,6 +21,7 @@ Ao adicionar um link, o sistema:
 - **Reprocessamento Sob Demanda (Varinha Mágica)**: Controle manual para solicitar ou refazer resumos de IA diretamente no feed.
 - Processamento em Segundo Plano: Utiliza workers para garantir que a interface não trave enquanto a IA processa os links.
 - **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
+- **Extração Cirúrgica (Crawler Squadron)**: Sistema modular de extratores que identifica títulos e conteúdos em sites específicos, removendo anúncios e lixo visual antes de processar com IA.
 - **Fofoca Automática (Integração Pessegram)**: Envio instantâneo de resumos ácidos de volta para o Telegram para links recebidos via API.
 - **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização e comportamento do sistema.
 - Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.

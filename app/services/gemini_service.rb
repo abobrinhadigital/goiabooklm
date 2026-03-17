@@ -10,11 +10,18 @@ class GeminiService
       options: { model: "gemini-2.5-flash", timeout: 30 }
     )
 
-    prompt_template = File.read(Rails.root.join("config", "prompts", "summary_prompt.txt"))
-    prompt = prompt_template % { text: text[0..20000] }
+    system_instruction = File.read(Rails.root.join("config", "prompts", "summary_prompt.md"))
 
     begin
-      response = client.generate_content({ contents: { role: "user", parts: { text: prompt } } })
+      response = client.generate_content({
+        system_instruction: { parts: [{ text: system_instruction }] },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: text[0..20000] }]
+          }
+        ]
+      })
       candidate = response.dig("candidates", 0)
       if candidate && candidate.dig("content", "parts", 0, "text").present?
         candidate.dig("content", "parts", 0, "text")
@@ -53,12 +60,18 @@ class GeminiService
       links_text += failed_bookmarks.map { |b| "URL: #{b.url} (ERRO DE PROCESSAMENTO)" }.join("\n")
     end
 
-    prompt_template = File.read(Rails.root.join("config", "prompts", "digest_prompt.txt"))
-    prompt = prompt_template % { type: type, links_text: links_text[0..25000] }
-
+    system_instruction = File.read(Rails.root.join("config", "prompts", "digest_prompt.md"))
 
     begin
-      response = client.generate_content({ contents: { role: "user", parts: { text: prompt } } })
+      response = client.generate_content({
+        system_instruction: { parts: [{ text: system_instruction }] },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: links_text[0..25000] }]
+          }
+        ]
+      })
       candidate = response.dig("candidates", 0)
       if candidate && candidate.dig("content", "parts", 0, "text").present?
         candidate.dig("content", "parts", 0, "text")

@@ -1,3 +1,11 @@
+## [4.0.0] - 2026-03-16
+
+### Adicionado
+- **Sistema de Extratores Modulares (The Crawler Squadron)**: Introdução de uma arquitetura extensível para extração de conteúdo site-a-site.
+- **Surgical Site Crawlers**: Implementação de 9 extratores especializados (XDA, How-To-Geek, It's FOSS, Tecnoblog, TudoCelular, GSMArena, 9to5Linux, DioLinux, OMG! Ubuntu!) que utilizam seletores precisos para capturar títulos, subtítulos e conteúdo real.
+- **Limpeza Profunda (Digital Detox)**: Poda agressiva de anúncios, widgets sociais, barras laterais e elementos de marketing, garantindo que a IA receba apenas o "filé mignon" do texto.
+- **Fallback Inteligente**: Integração com `Readability` como plano de contingência para sites sem extratores dedicados.
+
 ## [3.2.0] - 2026-03-15
 
 ### Adicionado
