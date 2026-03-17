@@ -14,7 +14,9 @@ class GeminiService
 
     begin
       response = client.generate_content({
-        system_instruction: { parts: { text: system_instruction } },
+        system_instruction: { 
+          parts: { text: system_instruction } 
+        },
         contents: [
           {
             role: "user",

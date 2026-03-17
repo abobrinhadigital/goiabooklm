@@ -1,3 +1,9 @@
+## [4.1.3] - 2026-03-17
+
+### Corrigido
+- **Alinhamento de Oráculo (v1beta)**: O `GeminiService` agora emula a estrutura de payload do Pessegram, garantindo que o modelo 2.5 Flash não se perca em enigmas 400.
+- **Sincronia de Escriba**: Ajuste minucioso na formatação do `system_instruction` para garantir compatibilidade total.
+
 ## [4.1.2] - 2026-03-17
 
 ### Corrigido
