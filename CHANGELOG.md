@@ -1,3 +1,9 @@
+## [4.1.0] - 2026-03-17
+
+### Adicionado
+- **Editores de Personalidade (Prompt Editor)**: Nova interface para calibração da voz do Pollux. Agora o mestre pode editar as instruções de "Resumo" e "Boletim" diretamente no painel de Configurações, sem tocar em arquivos via terminal.
+- **Persistência em Disco**: Sistema de I/O direto que salva as alterações nos arquivos markdown de configuração, garantindo que o `GeminiService` use as novas diretrizes instantaneamente sem precisar reiniciar o serviço.
+
 ## [4.0.0] - 2026-03-16
 
 ### Adicionado

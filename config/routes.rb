@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   scope :settings, as: :settings do
     get "edit_rules", to: "settings#edit_rules"
     get "global_rules", to: "settings#global_rules"
+    get "edit_prompts", to: "settings#edit_prompts"
+    patch "update_prompts", to: "settings#update_prompts"
     patch "update_rules", to: "settings#update_rules"
   end
   namespace :api do

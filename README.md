@@ -23,7 +23,7 @@ Ao adicionar um link, o sistema:
 - **Higienização de Links (Incinerador)**: Limpeza automática de rastreadores (UTM, ref, tags de marketing) usando o motor ClearURLs e regras customizadas.
 - **Extração Cirúrgica (Crawler Squadron)**: Sistema modular de extratores que identifica títulos e conteúdos em sites específicos, removendo anúncios e lixo visual antes de processar com IA.
 - **Fofoca Automática (Integração Pessegram)**: Envio instantâneo de resumos ácidos de volta para o Telegram para links recebidos via API.
-- **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização e comportamento do sistema.
+- **Central de Configurações**: Painel dedicado para gerenciar regras de sanitização, comportamento do sistema e a **voz do Pollux** (editores de prompt integrados).
 - Boletim Resumido (Bulletin): Sistema de resgate que consolida os 10 itens não lidos mais antigos, marcando-os como lidos automaticamente e satirizando falhas.
 - Paginação Premium: Navegação fluida via gem Pagy com interface amigável.
 - Busca Robusta: Sistema de busca que varre títulos, resumos e URLs.

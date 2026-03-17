@@ -1,0 +1,111 @@
+<div class="settings-container">
+  <div class="page-header">
+    <h1><i class="fa-solid fa-microphone-lines"></i> A Voz de Pollux</h1>
+    <p class="subtitle">O mestre calibra o sarcasmo, o biógrafo refina a prosa.</p>
+  </div>
+
+  <div class="card-settings">
+    <%= form_with url: settings_update_prompts_path, method: :patch, local: true do |f| %>
+      <div class="prompts-grid">
+        <div class="form-group">
+          <%= f.label :summary_prompt, "Prompt de Resumo (Summary)" %>
+          <p class="help-text">Define como o Pollux resume cada artigo individualmente.</p>
+          <%= f.text_area :summary_prompt, value: @summary_prompt, rows: 25, class: "prompt-editor", placeholder: "Instruções para o resumo..." %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :digest_prompt, "Prompt de Boletim (Digest)" %>
+          <p class="help-text">Define o tom do âncora exausto que gera o boletim diário.</p>
+          <%= f.text_area :digest_prompt, value: @digest_prompt, rows: 25, class: "prompt-editor", placeholder: "Instruções para o boletim..." %>
+        </div>
+      </div>
+
+      <div class="actions" style="margin-top: 2rem;">
+        <%= f.submit "Atualizar Personalidade de Pollux", class: "btn btn-primary" %>
+        <%= link_to "Cancelar", root_path, class: "btn" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="help-section card-settings" style="margin-top: 2rem;">
+    <h3><i class="fa-solid fa-circle-info"></i> Notas do Biógrafo</h3>
+    <ul class="help-list">
+      <li>As alterações são salvas diretamente nos arquivos em <code>config/prompts/</code>.</li>
+      <li>Não é necessário reiniciar o servidor; a IA lerá a nova versão na próxima execução.</li>
+      <li>Cuidado ao remover as seções de <strong>Identidade</strong> e <strong>Missão</strong>, ou o Pollux pode entrar em crise existencial.</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .settings-container {
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .prompts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 1024px) {
+    .prompts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .prompt-editor {
+    font-family: "Fira Code", "Courier New", monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    background-color: #0d1117 !important;
+    border: 1px solid #30363d !important;
+    color: #c9d1d9 !important;
+    padding: 1.5rem;
+    width: 100%;
+    border-radius: 6px;
+    resize: vertical;
+  }
+
+  .prompt-editor:focus {
+    border-color: var(--accent) !important;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2);
+  }
+
+  .card-settings {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  
+  .help-text {
+    font-size: 0.9rem;
+    color: #8b949e;
+    margin-bottom: 0.8rem;
+  }
+
+  .help-list {
+    margin-top: 1rem;
+    color: #8b949e;
+    line-height: 1.6;
+  }
+
+  .help-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .page-header h1 {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .fa-microphone-lines {
+    color: var(--accent);
+  }
+</style>
