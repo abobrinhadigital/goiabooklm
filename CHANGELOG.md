@@ -1,3 +1,8 @@
+## [4.1.1] - 2026-03-17
+
+### Corrigido
+- **Visibilidade de Navegação**: Adicionado o link de acesso aos Prompts no menu de configurações lateral, simplificando o fluxo de edição para o mestre.
+
 ## [4.1.0] - 2026-03-17
 
 ### Adicionado
