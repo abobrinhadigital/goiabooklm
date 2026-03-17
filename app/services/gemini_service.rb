@@ -1,59 +1,18 @@
+require 'net/http'
+require 'uri'
+require 'json'
+
 class GeminiService
   def self.summarize(text)
     return "" if text.blank? || ENV["GEMINI_API_KEY"].blank?
 
-    client = ::Gemini.new(
-      credentials: {
-        service: "generative-language-api",
-        api_key: ENV["GEMINI_API_KEY"]
-      },
-      options: { model: ENV["GEMINI_MODEL"] || "gemini-2.0-flash", timeout: 30 }
-    )
-
-    system_instruction = File.read(Rails.root.join("config", "prompts", "summary_prompt.md"))
-
-    begin
-      response = client.generate_content({
-        system_instruction: { 
-          parts: { text: system_instruction } 
-        },
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: text[0..20000] }]
-          }
-        ]
-      })
-      candidate = response.dig("candidates", 0)
-      if candidate && candidate.dig("content", "parts", 0, "text").present?
-        candidate.dig("content", "parts", 0, "text")
-      else
-        reason = candidate&.fetch("finishReason", "UNKNOWN")
-        raise "A IA bloqueou ou não gerou o texto (Motivo: #{reason})"
-      end
-    rescue Faraday::Error => e
-      Rails.logger.error("GeminiService Network Error: #{e.message}")
-      raise "Erro de rede com o Google (Timeout ou Conexão)"
-    rescue => e
-      safe_message = e.message.gsub(/key=[^&\s]+/, "key=[REDACTED]")
-      
-      if safe_message.include?("RESOURCE_EXHAUSTED")
-        raise "Cota de IA excedida (Aguarde alguns minutos)"
-      end
-
-      Rails.logger.error("GeminiService Error: #{safe_message}")
-      raise "Erro na IA do Google: #{safe_message}"
-    end
+    prompt = File.read(Rails.root.join("config", "prompts", "summary_prompt.md"))
+    call_gemini(prompt, text[0..20000])
   end
 
   def self.generate_digest(bookmarks, type = "Resumido", failed_bookmarks = [])
     return "Nenhum link encontrado para o período." if bookmarks.empty? && failed_bookmarks.empty?
     return "Erro de API Key." if ENV["GEMINI_API_KEY"].blank?
-
-    client = ::Gemini.new(
-      credentials: { service: "generative-language-api", api_key: ENV["GEMINI_API_KEY"] },
-      options: { model: ENV["GEMINI_MODEL"] || "gemini-2.0-flash", timeout: 30 }
-    )
 
     links_text = bookmarks.map { |b| "Título: #{b.title}\nURL: #{b.url}\nResumo Original: #{b.summary}\n---" }.join("\n")
     
@@ -62,29 +21,62 @@ class GeminiService
       links_text += failed_bookmarks.map { |b| "URL: #{b.url} (ERRO DE PROCESSAMENTO)" }.join("\n")
     end
 
-    system_instruction = File.read(Rails.root.join("config", "prompts", "digest_prompt.md"))
+    prompt = File.read(Rails.root.join("config", "prompts", "digest_prompt.md"))
+    call_gemini(prompt, links_text[0..25000])
+  end
+
+  private
+
+  def self.call_gemini(system_prompt, user_text)
+    api_key = ENV["GEMINI_API_KEY"]
+    model = ENV["GEMINI_MODEL"] || "gemini-2.0-flash"
+    uri = URI("https://generativelanguage.googleapis.com/v1beta/models/#{model}:generateContent?key=#{api_key}")
+
+    payload = {
+      system_instruction: {
+        parts: { text: system_prompt }
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: user_text }]
+        }
+      ]
+    }.to_json
 
     begin
-      response = client.generate_content({
-        system_instruction: { parts: { text: system_instruction } },
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: links_text[0..25000] }]
-          }
-        ]
-      })
-      candidate = response.dig("candidates", 0)
-      if candidate && candidate.dig("content", "parts", 0, "text").present?
-        candidate.dig("content", "parts", 0, "text")
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      http.read_timeout = 30
+
+      request = Net::HTTP::Post.new(uri)
+      request["Content-Type"] = "application/json"
+      request.body = payload
+
+      response = http.request(request)
+
+      if response.code == "200"
+        result = JSON.parse(response.body)
+        text = result.dig("candidates", 0, "content", "parts", 0, "text")
+        if text.present?
+          text
+        else
+          raise "A IA não gerou texto (Motivo: #{result.dig("candidates", 0, "finishReason") || 'UNKNOWN'})"
+        end
       else
-        reason = candidate&.fetch("finishReason", "UNKNOWN")
-        raise "O Boletim foi bloqueado pela IA (Motivo: #{reason})"
+        raise "Erro da API Gemini (#{response.code}): #{response.body}"
       end
     rescue => e
       safe_message = e.message.gsub(/key=[^&\s]+/, "key=[REDACTED]")
-      Rails.logger.error("GeminiService Digest Error: #{safe_message}")
-      raise "Erro no Boletim: #{safe_message}"
+      Rails.logger.error("GeminiService Error: #{safe_message}")
+      
+      if safe_message.include?("429")
+        raise "Cota de IA excedida (Aguarde alguns minutos)"
+      elsif safe_message.include?("Timeout") || safe_message.include?("Failed to open TCP")
+        raise "Erro de rede com o Google (Timeout ou Conexão)"
+      else
+        raise "Erro na IA do Google: #{safe_message}"
+      end
     end
   end
 end

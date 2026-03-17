@@ -1,3 +1,8 @@
+## [4.1.4] - 2026-03-17
+
+### Alterado
+- **Abandono de Intermediários**: Substituição da gem `gemini-ai` por chamadas nativas `Net::HTTP` no `GeminiService`. Agora o sistema fala diretamente com o endpoint `v1beta` usando o payload idêntico ao do Pessegram, eliminando erros 400 causados pelo "envelope" da biblioteca.
+
 ## [4.1.3] - 2026-03-17
 
 ### Corrigido
