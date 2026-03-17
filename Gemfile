@@ -27,8 +27,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 gem "redcarpet", "~> 3.6"
 gem "ruby-readability", "~> 0.7.0"
 gem "reverse_markdown"
-gem "gemini-ai"
-gem "dotenv-rails", "~> 3.2"
+gem "dot-env", "~> 3.2"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
