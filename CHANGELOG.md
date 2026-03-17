@@ -1,3 +1,9 @@
+## [4.1.2] - 2026-03-17
+
+### Corrigido
+- **Compatibilidade Gemini 2.5**: Corrigida a estrutura de `system_instruction` que causava Erro 400 (Bad Request). O biógrafo agora fala a língua correta do modelo futurista do mestre.
+- **Resiliência de Modelo**: Agora o sistema respeita a variável `GEMINI_MODEL` do `.env` ou usa o `gemini-2.0-flash` como base, evitando delírios de modelos inexistentes.
+
 ## [4.1.1] - 2026-03-17
 
 ### Corrigido

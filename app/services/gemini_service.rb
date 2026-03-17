@@ -7,14 +7,14 @@ class GeminiService
         service: "generative-language-api",
         api_key: ENV["GEMINI_API_KEY"]
       },
-      options: { model: "gemini-2.5-flash", timeout: 30 }
+      options: { model: ENV["GEMINI_MODEL"] || "gemini-2.0-flash", timeout: 30 }
     )
 
     system_instruction = File.read(Rails.root.join("config", "prompts", "summary_prompt.md"))
 
     begin
       response = client.generate_content({
-        system_instruction: { parts: [{ text: system_instruction }] },
+        system_instruction: { parts: { text: system_instruction } },
         contents: [
           {
             role: "user",
@@ -50,7 +50,7 @@ class GeminiService
 
     client = ::Gemini.new(
       credentials: { service: "generative-language-api", api_key: ENV["GEMINI_API_KEY"] },
-      options: { model: "gemini-2.5-flash", timeout: 30 }
+      options: { model: ENV["GEMINI_MODEL"] || "gemini-2.0-flash", timeout: 30 }
     )
 
     links_text = bookmarks.map { |b| "Título: #{b.title}\nURL: #{b.url}\nResumo Original: #{b.summary}\n---" }.join("\n")
@@ -64,7 +64,7 @@ class GeminiService
 
     begin
       response = client.generate_content({
-        system_instruction: { parts: [{ text: system_instruction }] },
+        system_instruction: { parts: { text: system_instruction } },
         contents: [
           {
             role: "user",
