@@ -38,3 +38,8 @@
 !/config/prompts/.keep
 /db/structure.sql
 /db/*_structure.sql
+
+# Instruções da IA e configurações de agente
+AGENTS.md
+.cursorrules
+.copilot-instructions.md
