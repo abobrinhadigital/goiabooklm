@@ -10,6 +10,12 @@ default: &default
 
 development:
   <<: *default
+  # Em development, usar apenas 1 processo e 1 thread para simplificar
+  workers:
+    - queues: "*"
+      threads: 1
+      processes: 1
+      polling_interval: 1
 
 test:
   <<: *default

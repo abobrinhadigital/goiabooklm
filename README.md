@@ -82,6 +82,17 @@ chmod +x script/install_service.sh
 ```
 *(Siga as instruções do Systemd fornecidas na tela pelo script.)*
 
+## Integração com Pessegram v4.0.0
+
+O GoiabookLM agora faz parte da arquitetura multi-bot do Pessegram v4.0.0:
+
+- **Bot GoiabookLM**: Bot especializado que recebe URLs via webhook do Telegram
+- **API Direta**: O bot envia URLs diretamente para a API do GoiabookLM (porta 3000)
+- **Notificação Automática**: Resumos são enviados de volta ao Telegram via PessegramService
+- **Cloudflare Tunnel**: Integração com túneis Cloudflare para exposição segura
+
+O bot opera de forma independente, mas integrada ao ecossistema Pessegram.
+
 ## Persona Pollux
 
 O projeto é mantido sob a supervisão de Pollux, o Biógrafo do Azar. Se o sistema falhar ao carregar uma página ou se a IA capotar, o Pollux fará questão de documentar a falha com o sarcasmo devido, mantendo a "Curadoria do Erro" como pilar central da experiência.

@@ -5,21 +5,29 @@ class PessegramService
   def self.notify(bookmark)
     return unless bookmark.source == "pessegram"
 
-    url = ENV["PESSEGRAM_API_URL"]
+    # Novo endpoint: /bot/goiabooklm
+    base_url = ENV["PESSEGRAM_API_URL"] # ex: http://localhost:7355
     token = ENV["PESSEGRAM_API_TOKEN"]
+    chat_id = ENV["PESSEGRAM_CHAT_ID"] # ID do chat do mestre
 
-    return if url.blank?
+    return if base_url.blank?
 
     message = format_message(bookmark)
 
     begin
-      uri = URI.parse(url)
+      # Montar URL do endpoint /bot/goiabooklm
+      uri = URI.parse(base_url)
+      uri.path = "/bot/goiabooklm"
+
       http = Net::HTTP.new(uri.host, uri.port)
       request = Net::HTTP::Post.new(uri.path, {
         "Content-Type" => "application/json",
         "Authorization" => "Bearer #{token}"
       })
-      request.body = { mensagem: message }.to_json
+      request.body = {
+        mensagem: message,
+        chat_id: chat_id
+      }.to_json
 
       response = http.request(request)
 
@@ -38,7 +46,7 @@ class PessegramService
       "✅ **[GoiabookLM Processou!]**\n\n" \
       "**Título:** #{bookmark.title}\n" \
       "**Link:** #{bookmark.url}\n\n" \
-      "**Resumo do Pollux:**\n#{bookmark.summary}"
+      "**Resumo:**\n#{bookmark.summary}"
     else # Erro (status 2 ou qualquer outro susto)
       "❌ **[GoiabookLM Engasgou!]**\n\n" \
       "**Link:** #{bookmark.url}\n" \

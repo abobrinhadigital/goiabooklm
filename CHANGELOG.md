@@ -1,3 +1,16 @@
+## [4.2.0] - 2026-03-22
+
+### Adicionado
+- **Integração com Pessegram v4.0.0**: GoiabookLM agora opera como bot especializado dentro da arquitetura multi-bot do Pessegram.
+- **Bot GoiabookLM**: Implementação do bot que recebe URLs via webhook do Telegram e processa automaticamente.
+- **API Direta**: Comunicação direta entre o bot e a API do GoiabookLM (porta 3000).
+- **Notificação Automática**: Resumos são enviados de volta ao Telegram via PessegramService.
+- **Cloudflare Tunnel**: Suporte completo para exposição via túneis Cloudflare.
+
+### Modificado
+- **Arquitetura**: GoiabookLM agora é um serviço independente que pode ser chamado pelo Pessegram via API.
+- **Fluxo de Processamento**: URLs são recebidas via webhook e processadas em background com Solid Queue.
+
 ## [4.1.4] - 2026-03-17
 
 ### Alterado

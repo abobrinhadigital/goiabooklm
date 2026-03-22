@@ -36,9 +36,20 @@ module Goiabooklm
     # Fuso horário e Idioma (i18n)
     config.time_zone = "Brasilia"
     config.i18n.default_locale = :"pt-BR"
-    config.i18n.available_locales = [:"pt-BR", :en]
+    config.i18n.available_locales = [ :"pt-BR", :en ]
 
     # Suporte para funcionalidades específicas do banco dados (como FTS5)
     config.active_record.schema_format = :sql
+
+    # Configuração do Active Job
+    # Development: :async (estável)
+    # Production: :solid_queue (com banco separado)
+    if Rails.env.production?
+      config.active_job.queue_adapter = :solid_queue
+      config.solid_queue.silence_polling = true
+      config.solid_queue.connects_to = { database: { writing: :queue } }
+    else
+      config.active_job.queue_adapter = :async
+    end
   end
 end
