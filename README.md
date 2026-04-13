@@ -4,6 +4,11 @@
 
 # GoiabookLM
 
+> **Status: LEGADO — DESCONTINUADO**
+
+> [!WARNING]
+> Este repositório é a versão standalone original do GoiabookLM. O projeto foi migrado para o monorepo **Pollux** (código privado), onde continua em desenvolvimento ativo como módulo integrado.
+
 GoiabookLM é um sistema de curadoria e arquivamento de links (favoritos) que utiliza a inteligência artificial do Google Gemini para processar, limpar e resumir conteúdos da web. O projeto é operado sob a persona de Pollux, um assistente digital ácido e sarcástico que garante que seu mestre (Celo) não precise ler textos inúteis ou incompletos.
 
 ## O Que é o Projeto
