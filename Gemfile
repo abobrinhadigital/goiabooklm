@@ -67,4 +67,4 @@ end
 
 gem "devise", "~> 5.0"
 
-gem "pagy", "9.4.0"
+gem "pagy", "43.5.1"
